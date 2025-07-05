@@ -1,0 +1,11 @@
+{
+    "name": "pc/mc-legende",
+    "autoload": {
+        "psr-4": {
+            "Pc\\McLegende\\": "src/"
+        }
+    },
+    "require": {
+        "phpoffice/phpspreadsheet": "1.23"
+    }
+}
