@@ -8,9 +8,10 @@ header('Strict-Transport-Security: max-age=63072000; includeSubDomains; preload'
 
 session_start();
 include 'databaseconnect.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-require 'PHPMailer/src/Exception.php';
+require './vendor/autoload.php'; // Assurez-vous que le chemin est correct
+// require 'PHPMailer/src/PHPMailer.php';
+// require 'PHPMailer/src/SMTP.php';
+// require 'PHPMailer/src/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

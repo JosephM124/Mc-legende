@@ -80,6 +80,7 @@ $eleves = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <meta charset="UTF-8">
   <title>Gestion des élèves - Admin</title>
+  
   <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">

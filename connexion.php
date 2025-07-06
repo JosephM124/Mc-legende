@@ -267,7 +267,7 @@ $csrf_token = $_SESSION['csrf_token_connexion'];
       </button>
       <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index1.php"><i class="fas fa-home me-1"></i>Accueil</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.php"><i class="fas fa-home me-1"></i>Accueil</a></li>
           <li class="nav-item"><a class="nav-link active" href="connexion.php"><i class="fas fa-sign-in-alt me-1"></i>Connexion</a></li>
           <li class="nav-item"><a class="nav-link" href="inscription.php"><i class="fas fa-user-plus me-1"></i>Inscription</a></li>
         </ul>
