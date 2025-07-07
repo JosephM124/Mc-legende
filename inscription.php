@@ -335,7 +335,7 @@ $csrf_token = $_SESSION['csrf_token_inscription'];
             </div>
             
             <div class="register-body">
-              <form action="traitement_inscription.php" method="POST" id="registerForm" autocomplete="off">
+              <form action="api/auth/register.php" method="POST" id="registerForm" autocomplete="off">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8') ?>">
                 
                 <!-- Section Informations Personnelles -->

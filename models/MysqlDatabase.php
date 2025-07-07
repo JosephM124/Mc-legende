@@ -1,6 +1,5 @@
 <?php 
-   require './Database.php';
-  class MysqlDatabase extends Database{
+class MysqlDatabase extends Database{
  
   
     public function __construct(Config $config)

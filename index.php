@@ -506,7 +506,7 @@
 <!-- Navbar Premium -->
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="index1.php">
+    <a class="navbar-brand" href="index.php">
       <img src="images/back.jpeg" alt="MC-LEGENDE" class="logo-navbar rounded-circle shadow-sm">
       <span>MC-LEGENDE</span>
     </a>

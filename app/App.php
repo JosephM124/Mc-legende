@@ -1,8 +1,8 @@
 <?php 
 
   require dirname(__DIR__) . '/vendor/autoload.php';
-  require dirname(__DIR__) . '/models/MysqlDatabase.php';
   require dirname(__DIR__) . '/config/mysql.php';
+  
   
     
   class App
