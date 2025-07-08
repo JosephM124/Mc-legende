@@ -1,5 +1,5 @@
 <?php
-
+namespace Config;
 const MYSQL_HOST = 'localhost:3306';
 // const MYSQL_PORT = 3306;
 const MYSQL_NAME = 'mc-legende';

@@ -1,5 +1,5 @@
 <?php
-
+namespace Middleware;
 class ValidationMiddleware
 {
     /**
@@ -70,11 +70,11 @@ class ValidationMiddleware
 
         // Validation de la date de naissance
         if (isset($data['naissance']) && !empty($data['naissance'])) {
-            $date = DateTime::createFromFormat('Y-m-d', $data['naissance']);
+            $date = \DateTime::createFromFormat('Y-m-d', $data['naissance']);
             if (!$date || $date->format('Y-m-d') !== $data['naissance']) {
                 $errors['naissance'] = 'Format de date invalide (YYYY-MM-DD)';
             } else {
-                $age = $date->diff(new DateTime())->y;
+                $age = $date->diff(new \DateTime())->y;
                 if ($age < 5 || $age > 100) {
                     $errors['naissance'] = 'L\'âge doit être entre 5 et 100 ans';
                 }

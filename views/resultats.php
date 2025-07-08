@@ -78,10 +78,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'img/pro
 <head>
   <meta charset="UTF-8">
   <title>Mes Résultats - MC-LEGENDE</title>
-  <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
-  <link href="assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="assets/dist/css/adminlte.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
+  <link href="/assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/assets/dist/css/adminlte.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -137,7 +137,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'img/pro
 
     <!-- Déconnexion -->
     <li class="nav-item">
-      <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
     </li>
   </ul>
 </nav>
@@ -160,25 +160,25 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'img/pro
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
           <li class="nav-item">
-            <a href="eleve.php" class="nav-link">
+            <a href="/eleve/home" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>Accueil</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="mes_interro.php" class="nav-link ">
+            <a href="/eleve/interro" class="nav-link ">
               <i class="nav-icon fas fa-book-open"></i>
               <p>Mes Interros</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="resultats.php" class="nav-link active">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>Mes Résultats</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="profil.php" class="nav-link">
+            <a href="/eleve/profil" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Mon Profil</p>
             </a>

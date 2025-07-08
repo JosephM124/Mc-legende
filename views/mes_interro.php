@@ -100,8 +100,8 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mes Interros - MC-LEGENDE</title>
-  <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <script>
   if (window.history.replaceState) {
@@ -158,7 +158,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 
     <!-- Déconnexion -->
     <li class="nav-item">
-      <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
     </li>
   </ul>
 </nav>
@@ -181,25 +181,25 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
           <li class="nav-item">
-            <a href="eleve.php" class="nav-link">
+            <a href="/eleve/home" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>Accueil</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="mes_interro.php" class="nav-link active">
+            <a href="/eleve/interro" class="nav-link active">
               <i class="nav-icon fas fa-book-open"></i>
               <p>Mes Interros</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="resultats.php" class="nav-link ">
+            <a href="/eleve/resultats" class="nav-link ">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>Mes Résultats</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="profil.php" class="nav-link">
+            <a href="/eleve/profil" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Mon Profil</p>
             </a>

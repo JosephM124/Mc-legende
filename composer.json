@@ -2,7 +2,14 @@
     "name": "pc/mc-legende",
     "autoload": {
         "psr-4": {
-            "Pc\\McLegende\\": "src/"
+            "Pc\\McLegende\\": "src/",
+            "App\\": "app/",
+            "Controllers\\": "controller/",
+            "Models\\": "models/",
+            "Router\\": "router/",
+            "Config\\": "config/",
+            "Message\\": "message/",
+            "Middlewares\\": "middleware/"
         }
     },
     "require": {

@@ -1,8 +1,10 @@
 <?php 
+namespace Models;
+
 class MysqlDatabase extends Database{
  
   
-    public function __construct(Config $config)
+    public function __construct(\Config\Config $config)
     {
         parent::__construct($config);
          

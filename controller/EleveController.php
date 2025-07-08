@@ -1,6 +1,6 @@
 <?php
-require_once 'BaseController.php';
-require_once dirname(__DIR__) . '/models/Eleve.php';
+namespace Controllers;
+
 
 class EleveController extends BaseController
 {
@@ -9,7 +9,7 @@ class EleveController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->eleve = new Eleve();
+        $this->eleve = new \Models\Eleve();
     }
 
     /**
@@ -24,7 +24,7 @@ class EleveController extends BaseController
                  JOIN utilisateurs u ON e.utilisateur_id = u.id"
             );
             $this->successResponse($eleves, 'Élèves récupérés avec succès');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la récupération des élèves: ' . $e->getMessage());
         }
     }
@@ -48,7 +48,7 @@ class EleveController extends BaseController
             }
             
             $this->successResponse($eleve[0], 'Élève récupéré avec succès');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la récupération de l\'élève: ' . $e->getMessage());
         }
     }
@@ -113,7 +113,7 @@ class EleveController extends BaseController
             } else {
                 $this->errorResponse('Erreur lors de la création de l\'élève');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la création de l\'élève: ' . $e->getMessage());
         }
     }
@@ -164,7 +164,7 @@ class EleveController extends BaseController
             } else {
                 $this->errorResponse('Aucune modification effectuée');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la mise à jour: ' . $e->getMessage());
         }
     }
@@ -185,7 +185,7 @@ class EleveController extends BaseController
             } else {
                 $this->errorResponse('Élève non trouvé', 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la suppression: ' . $e->getMessage());
         }
     }
@@ -205,7 +205,7 @@ class EleveController extends BaseController
             );
             
             $this->successResponse($eleves, 'Élèves récupérés avec succès');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la récupération des élèves: ' . $e->getMessage());
         }
     }
@@ -225,7 +225,7 @@ class EleveController extends BaseController
             );
             
             $this->successResponse($eleves, 'Élèves récupérés avec succès');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la récupération des élèves: ' . $e->getMessage());
         }
     }

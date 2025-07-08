@@ -1,5 +1,5 @@
 <?php
-
+namespace Controllers;
 abstract class BaseController
 {
     protected $database;
@@ -7,7 +7,7 @@ abstract class BaseController
 
     public function __construct()
     {
-        $this->database = App::getMysqlDatabaseInstance();
+        $this->database = \App\App::getMysqlDatabaseInstance();
     }
 
     /**
@@ -69,6 +69,31 @@ abstract class BaseController
             $clean[$key] = htmlspecialchars(strip_tags(trim($value)));
         }
         return $clean;
+    }
+
+    public function logout(){
+       session_unset();
+       session_destroy();
+       header("Location: /");
+       exit();
+    }
+
+    protected function redirect_to($role){
+        switch($role){
+            case 'eleve':
+                header('Location: /eleve/home');
+                break;
+            case 'admin_simple':
+                $admin = (new AdminController())->enregistrer_activite_admin($_SESSION['utilisateur']['id'], "Connexion d'un admin", "Nom : " . $_SESSION['utilisateur']['nom'] . " | Email : " . $_SESSION['utilisateur']['email']);
+                header('Location: admin_simple.php');
+            break;
+            case 'admin_principal':
+                header('Location: /admin/home');
+                $admin = (new AdminController())->enregistrer_activite_admin($_SESSION['utilisateur']['id'], "Connexion d'un admin", "Nom : " . $_SESSION['utilisateur']['nom'] . " | Email : " . $_SESSION['utilisateur']['email']);
+                break;
+            default:
+           break;
+        }
     }
 }
 ?> 

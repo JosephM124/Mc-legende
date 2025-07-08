@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__DIR__) . '/app/App.php';
+namespace Middleware;
 
 class AuthMiddleware
 {
@@ -7,7 +7,7 @@ class AuthMiddleware
 
     public function __construct()
     {
-        $this->database = App::getMysqlDatabaseInstance();
+        $this->database = \App\App::getMysqlDatabaseInstance();
     }
 
     /**
@@ -46,7 +46,7 @@ class AuthMiddleware
             }
 
             return $user[0];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->sendUnauthorizedResponse('Erreur lors de la vérification du token');
         }
     }

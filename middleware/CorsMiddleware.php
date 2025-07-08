@@ -1,5 +1,5 @@
 <?php
-
+namespace Middleware;
 class CorsMiddleware
 {
     /**

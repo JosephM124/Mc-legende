@@ -1,5 +1,6 @@
 <?php 
-   require './Utilisateurs.php';
+  namespace Models;
+   
    class Eleve extends Utilisateurs
    {
       private $id;

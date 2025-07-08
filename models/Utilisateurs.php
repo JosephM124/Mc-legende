@@ -1,5 +1,5 @@
 <?php 
-   require dirname(__DIR__) . '/app/App.php';
+ namespace Models;
 
     class Utilisateurs 
     {
@@ -26,7 +26,7 @@
 
 
         public function all(){
-          return  $this->datas = App::getMysqlDatabaseInstance()->select("SELECT * FROM {$this->table}");
+          return  $this->datas = \App\App::getMysqlDatabaseInstance()->select("SELECT * FROM {$this->table}");
         }
 
 

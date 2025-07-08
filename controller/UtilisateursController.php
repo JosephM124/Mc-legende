@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__ . '/BaseController.php';
-require_once __DIR__ . '/../models/Utilisateurs.php';
+namespace Controllers;
+session_start();
+
 
 class UtilisateursController extends BaseController
 {
@@ -8,7 +9,8 @@ class UtilisateursController extends BaseController
 
     public function __construct()
     {
-        $this->utilisateur = new Utilisateurs();
+        parent::__construct();
+        $this->utilisateur = new \Models\Utilisateurs();
     }
 
     /**
@@ -19,7 +21,7 @@ class UtilisateursController extends BaseController
         try {
             $utilisateurs = $this->utilisateur->setTable('utilisateurs')->all();
             $this->successResponse($utilisateurs, 'Utilisateurs récupérés avec succès');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la récupération des utilisateurs: ' . $e->getMessage());
         }
     }
@@ -40,7 +42,7 @@ class UtilisateursController extends BaseController
             }
             
             $this->successResponse($utilisateur[0], 'Utilisateur récupéré avec succès');
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la récupération de l\'utilisateur: ' . $e->getMessage());
         }
     }
@@ -100,7 +102,7 @@ class UtilisateursController extends BaseController
             } else {
                 $this->errorResponse('Erreur lors de la création de l\'utilisateur');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la création de l\'utilisateur: ' . $e->getMessage());
         }
     }
@@ -151,7 +153,7 @@ class UtilisateursController extends BaseController
             } else {
                 $this->errorResponse('Aucune modification effectuée');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la mise à jour: ' . $e->getMessage());
         }
     }
@@ -172,7 +174,7 @@ class UtilisateursController extends BaseController
             } else {
                 $this->errorResponse('Utilisateur non trouvé', 404);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la suppression: ' . $e->getMessage());
         }
     }
@@ -180,25 +182,26 @@ class UtilisateursController extends BaseController
     /**
      * Authentifier un utilisateur
      */
-    public function login()
+    public function login($datas = [])
     {
-        $input = json_decode(file_get_contents('php://input'), true);
-        $input = $this->sanitizeInput($input);
-
+        
+        $input = $this->sanitizeInput($datas);
         $rules = [
-            'email' => 'required',
+            'identifiant' => 'required',
             'mot_de_passe' => 'required'
         ];
 
         $errors = $this->validateInput($input, $rules);
+      
         if (!empty($errors)) {
             $this->errorResponse($errors, 422);
         }
-
+        
         try {
             $user = $this->database->select(
-                "SELECT * FROM utilisateurs WHERE email = ?",
-                [$input['email']]
+                "SELECT * FROM utilisateurs WHERE email = ? OR telephone = ?",
+                [$input['identifiant'], $input['identifiant']]
+            
             );
 
             if (empty($user)) {
@@ -219,12 +222,14 @@ class UtilisateursController extends BaseController
 
                 unset($user['mot_de_passe']); // Ne pas renvoyer le mot de passe
                 $user['token'] = $token;
-
-                $this->successResponse($user, 'Connexion réussie');
+                
+                $_SESSION['utilisateur'] = $user;
+                $this->redirect_to($user['role']);
+               // $this->successResponse($user, 'Connexion réussie');
             } else {
                 $this->errorResponse('Email ou mot de passe incorrect', 401);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de l\'authentification: ' . $e->getMessage());
         }
     }

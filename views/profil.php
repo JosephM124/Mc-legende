@@ -147,8 +147,8 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 <head>
   <meta charset="UTF-8">
   <title>Mon Profil - MC-LEGENDE</title>
-  <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

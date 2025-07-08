@@ -17,7 +17,10 @@
     // pour tout faire matcher et cree aussi le htaccess pour rediriger toutes les requetes vers index.php
    //----------------------
 
-   Router::put('/',function(){
+   \Router\Router::put('/',function(){
     
-   })
+   });
+
+   /// ici tu vas seulement utiliser cette methode avec fetch c est mieux pour mettre a jour une ressource
+   
 ?>

@@ -1,7 +1,6 @@
 <?php
-require_once 'BaseController.php';
-require_once dirname(__DIR__) . '/middleware/AuthMiddleware.php';
-require_once dirname(__DIR__) . '/middleware/ValidationMiddleware.php';
+
+namespace Controllers;
 
 class ExampleController extends BaseController
 {

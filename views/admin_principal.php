@@ -45,10 +45,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 <head>
   <meta charset="UTF-8">
   <title>Tableau de bord Admin Principal - MC-LEGENDE</title>
-  <link href="assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="assets/dist/css/adminlte.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+  <link href="/assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/assets/dist/css/adminlte.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -68,7 +68,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   <!-- Menu à droite -->
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
-      <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
     </li>
   </ul>
 </nav>
