@@ -52,6 +52,10 @@ class Database
      * Exécuter une requête SQL simple
      */
     protected function query(string $request){
+        // AVERTISSEMENT : N'utilisez jamais cette méthode avec des entrées utilisateur !
+        if (preg_match('/[?]/', $request)) {
+            throw new \Exception("N'utilisez pas query() avec des variables utilisateur. Utilisez prepare().");
+        }
         try {
             if(strpos($request,'SELECT') !== false){
                 return $this->pdo->query($request)->fetchAll(\PDO::FETCH_ASSOC);
@@ -155,6 +159,10 @@ class Database
      * Récupérer les informations sur les colonnes d'une table
      */
     public function getTableColumns($table){
+        // Validation du nom de table (lettres, chiffres, _ uniquement)
+        if (!preg_match('/^[a-zA-Z0-9_]+$/', $table)) {
+            throw new \Exception("Nom de table invalide");
+        }
         try {
             $stmt = $this->pdo->prepare("DESCRIBE $table");
             $stmt->execute();

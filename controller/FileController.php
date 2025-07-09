@@ -25,11 +25,15 @@ class FileController extends BaseController
                 $this->errorResponse('ID utilisateur requis', 422);
             }
 
-            // Vérifier le type de fichier
-            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-            if (!in_array($file['type'], $allowedTypes)) {
+            // Vérification du type réel du fichier
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $realType = finfo_file($finfo, $file['tmp_name']);
+            finfo_close($finfo);
+            $allowedTypes = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/gif' => 'gif'];
+            if (!array_key_exists($realType, $allowedTypes)) {
                 $this->errorResponse('Type de fichier non autorisé. Utilisez JPG, PNG ou GIF', 422);
             }
+            $extension = $allowedTypes[$realType];
 
             // Vérifier la taille (max 2MB)
             if ($file['size'] > 2 * 1024 * 1024) {
@@ -43,9 +47,14 @@ class FileController extends BaseController
             }
 
             // Générer un nom de fichier unique
-            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
             $filename = 'avatar_' . $user_id . '_' . time() . '.' . $extension;
             $filepath = $uploadDir . $filename;
+
+            // Vérifier l'extension (refus des extensions dangereuses)
+            $dangerous = ['php', 'php5', 'phtml', 'phar', 'exe', 'js', 'sh', 'bat'];
+            if (in_array($extension, $dangerous)) {
+                $this->errorResponse('Extension de fichier interdite', 422);
+            }
 
             // Déplacer le fichier
             if (move_uploaded_file($file['tmp_name'], $filepath)) {
@@ -82,11 +91,20 @@ class FileController extends BaseController
             $type = $_POST['type'] ?? 'general';
             $user_id = $_POST['user_id'] ?? null;
 
-            // Vérifier le type de fichier
-            $allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain'];
-            if (!in_array($file['type'], $allowedTypes)) {
+            // Vérification du type réel du fichier
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $realType = finfo_file($finfo, $file['tmp_name']);
+            finfo_close($finfo);
+            $allowedTypes = [
+                'application/pdf' => 'pdf',
+                'application/msword' => 'doc',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+                'text/plain' => 'txt'
+            ];
+            if (!array_key_exists($realType, $allowedTypes)) {
                 $this->errorResponse('Type de fichier non autorisé. Utilisez PDF, DOC, DOCX ou TXT', 422);
             }
+            $extension = $allowedTypes[$realType];
 
             // Vérifier la taille (max 10MB)
             if ($file['size'] > 10 * 1024 * 1024) {
@@ -100,9 +118,14 @@ class FileController extends BaseController
             }
 
             // Générer un nom de fichier unique
-            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
             $filename = 'doc_' . $type . '_' . time() . '.' . $extension;
             $filepath = $uploadDir . $filename;
+
+            // Vérifier l'extension (refus des extensions dangereuses)
+            $dangerous = ['php', 'php5', 'phtml', 'phar', 'exe', 'js', 'sh', 'bat'];
+            if (in_array($extension, $dangerous)) {
+                $this->errorResponse('Extension de fichier interdite', 422);
+            }
 
             // Déplacer le fichier
             if (move_uploaded_file($file['tmp_name'], $filepath)) {
@@ -140,11 +163,20 @@ class FileController extends BaseController
             $category = $_POST['category'] ?? 'general';
             $user_id = $_POST['user_id'] ?? null;
 
-            // Vérifier le type de fichier
-            $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-            if (!in_array($file['type'], $allowedTypes)) {
+            // Vérification du type réel du fichier
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $realType = finfo_file($finfo, $file['tmp_name']);
+            finfo_close($finfo);
+            $allowedTypes = [
+                'image/jpeg' => 'jpg',
+                'image/png' => 'png',
+                'image/gif' => 'gif',
+                'image/webp' => 'webp'
+            ];
+            if (!array_key_exists($realType, $allowedTypes)) {
                 $this->errorResponse('Type de fichier non autorisé. Utilisez JPG, PNG, GIF ou WEBP', 422);
             }
+            $extension = $allowedTypes[$realType];
 
             // Vérifier la taille (max 5MB)
             if ($file['size'] > 5 * 1024 * 1024) {
@@ -158,9 +190,14 @@ class FileController extends BaseController
             }
 
             // Générer un nom de fichier unique
-            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
             $filename = 'img_' . $category . '_' . time() . '.' . $extension;
             $filepath = $uploadDir . $filename;
+
+            // Vérifier l'extension (refus des extensions dangereuses)
+            $dangerous = ['php', 'php5', 'phtml', 'phar', 'exe', 'js', 'sh', 'bat'];
+            if (in_array($extension, $dangerous)) {
+                $this->errorResponse('Extension de fichier interdite', 422);
+            }
 
             // Déplacer le fichier
             if (move_uploaded_file($file['tmp_name'], $filepath)) {

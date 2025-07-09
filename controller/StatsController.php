@@ -386,5 +386,151 @@ class StatsController extends BaseController
             $this->errorResponse('Erreur lors de la récupération des statistiques: ' . $e->getMessage());
         }
     }
+
+    /**
+     * Récupérer toutes les statistiques du dashboard en une seule requête optimisée
+     */
+    public function getDashboardStats()
+    {
+        try {
+            $stats = [];
+
+            // Statistiques globales (widgets)
+            $globales = $this->database->select(
+                "SELECT 
+                    (SELECT COUNT(*) FROM eleves) as total_eleves,
+                    (SELECT COUNT(*) FROM quiz WHERE statut = 'actif') as total_interros_actives,
+                    (SELECT COUNT(*) FROM notifications WHERE lue = 0) as total_notifications_non_lues,
+                    (SELECT COUNT(*) FROM utilisateurs WHERE role = 'admin_simple') as total_admins_simples,
+                    (SELECT COUNT(*) FROM quiz) as total_interros,
+                    (SELECT COUNT(*) FROM resultats) as total_resultats,
+                    (SELECT AVG(score) FROM resultats WHERE score IS NOT NULL) as score_moyen_global,
+                    (SELECT COUNT(DISTINCT eleve_id) FROM resultats) as eleves_ayant_participe"
+            );
+            $stats['widgets'] = $globales[0];
+
+            // Répartition des élèves par section
+            $sections = $this->database->select(
+                "SELECT 
+                    section,
+                    COUNT(*) as total,
+                    ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM eleves), 2) as pourcentage
+                 FROM eleves 
+                 WHERE section IS NOT NULL AND section != ''
+                 GROUP BY section 
+                 ORDER BY total DESC"
+            );
+            $stats['sections'] = $sections;
+
+            // Interrogations créées par jour (7 derniers jours)
+            $interro_stats = $this->database->select(
+                "SELECT 
+                    DATE(date_creation) as jour,
+                    COUNT(*) as total,
+                    COUNT(CASE WHEN statut = 'actif' THEN 1 END) as actives,
+                    COUNT(CASE WHEN statut = 'termine' THEN 1 END) as terminees
+                 FROM quiz 
+                 WHERE date_creation >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+                 GROUP BY DATE(date_creation) 
+                 ORDER BY jour DESC"
+            );
+            $stats['interro_stats'] = $interro_stats;
+
+            // Distribution des scores (par tranches)
+            $score_stats = $this->database->select(
+                "SELECT 
+                    CASE 
+                        WHEN score >= 90 THEN '90-100'
+                        WHEN score >= 80 THEN '80-89'
+                        WHEN score >= 70 THEN '70-79'
+                        WHEN score >= 60 THEN '60-69'
+                        WHEN score >= 50 THEN '50-59'
+                        ELSE '0-49'
+                    END as tranche_score,
+                    COUNT(*) as total
+                 FROM resultats 
+                 WHERE score IS NOT NULL
+                 GROUP BY 
+                    CASE 
+                        WHEN score >= 90 THEN '90-100'
+                        WHEN score >= 80 THEN '80-89'
+                        WHEN score >= 70 THEN '70-79'
+                        WHEN score >= 60 THEN '60-69'
+                        WHEN score >= 50 THEN '50-59'
+                        ELSE '0-49'
+                    END
+                 ORDER BY 
+                    CASE tranche_score
+                        WHEN '90-100' THEN 1
+                        WHEN '80-89' THEN 2
+                        WHEN '70-79' THEN 3
+                        WHEN '60-69' THEN 4
+                        WHEN '50-59' THEN 5
+                        ELSE 6
+                    END"
+            );
+            $stats['score_stats'] = $score_stats;
+
+            // Top 5 des matières les plus populaires
+            $matieres_populaires = $this->database->select(
+                "SELECT 
+                    q.categorie as matiere,
+                    COUNT(DISTINCT q.id) as nombre_quiz,
+                    COUNT(r.id) as nombre_participations,
+                    AVG(r.score) as score_moyen
+                 FROM quiz q
+                 LEFT JOIN resultats r ON q.id = r.quiz_id
+                 GROUP BY q.categorie
+                 ORDER BY nombre_participations DESC
+                 LIMIT 5"
+            );
+            $stats['matieres_populaires'] = $matieres_populaires;
+
+            // Activité récente (dernières 24h)
+            $activite_recente = $this->database->select(
+                "SELECT 
+                    'Connexions' as type_activite,
+                    COUNT(*) as total
+                 FROM activites_admin 
+                 WHERE action LIKE '%Connexion%' 
+                 AND date_activite >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+                 UNION ALL
+                 SELECT 
+                    'Nouveaux résultats' as type_activite,
+                    COUNT(*) as total
+                 FROM resultats 
+                 WHERE date_soumission >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+                 UNION ALL
+                 SELECT 
+                    'Nouvelles interrogations' as type_activite,
+                    COUNT(*) as total
+                 FROM quiz 
+                 WHERE date_creation >= DATE_SUB(NOW(), INTERVAL 24 HOUR)"
+            );
+            $stats['activite_recente'] = $activite_recente;
+
+            // Performance par établissement
+            $performance_etablissements = $this->database->select(
+                "SELECT 
+                    e.etablissement,
+                    COUNT(DISTINCT r.eleve_id) as nombre_eleves,
+                    COUNT(r.id) as nombre_resultats,
+                    AVG(r.score) as score_moyen,
+                    MAX(r.score) as score_max
+                 FROM resultats r
+                 JOIN eleves e ON r.eleve_id = e.id
+                 WHERE e.etablissement IS NOT NULL AND e.etablissement != ''
+                 GROUP BY e.etablissement
+                 HAVING nombre_resultats >= 5
+                 ORDER BY score_moyen DESC
+                 LIMIT 10"
+            );
+            $stats['performance_etablissements'] = $performance_etablissements;
+
+            $this->successResponse($stats, 'Statistiques dashboard récupérées avec succès');
+        } catch (\Exception $e) {
+            $this->errorResponse('Erreur lors de la récupération des statistiques dashboard: ' . $e->getMessage());
+        }
+    }
 }
 ?> 

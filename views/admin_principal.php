@@ -165,6 +165,58 @@
             </div>
           </div>
         </div>
+        
+        <!-- Widgets supplémentaires -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h3 id="total-resultats">0</h3>
+                <p>Résultats soumis</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3 id="score-moyen">0%</h3>
+                <p>Score moyen global</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-percentage"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3 id="eleves-participants">0</h3>
+                <p>Élèves participants</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 id="taux-participation">0%</h3>
+                <p>Taux de participation</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
         <!-- Graphiques -->
         <div class="row">
           <div class="col-md-6">
@@ -187,9 +239,9 @@
         <div class="row mt-4">
           <div class="col-md-6">
             <div class="card">
-              <div class="card-header"><h5>Élèves par catégorie d'activité</h5></div>
+              <div class="card-header"><h5>Matières les plus populaires</h5></div>
               <div class="card-body">
-                <canvas id="catActiviteChart"></canvas>
+                <canvas id="matiereChart"></canvas>
               </div>
             </div>
           </div>
@@ -198,6 +250,62 @@
               <div class="card-header"><h5>Distribution des scores</h5></div>
               <div class="card-body">
                 <canvas id="scoreChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Tableaux de données -->
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Performance par établissement</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Établissement</th>
+                        <th>Élèves</th>
+                        <th>Résultats</th>
+                        <th>Score moyen</th>
+                        <th>Score max</th>
+                      </tr>
+                    </thead>
+                    <tbody id="performanceTableBody">
+                      <tr>
+                        <td colspan="5" class="text-center">Chargement...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Activité récente (24h)</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Type d'activité</th>
+                        <th>Nombre</th>
+                        <th>Période</th>
+                      </tr>
+                    </thead>
+                    <tbody id="activiteTableBody">
+                      <tr>
+                        <td colspan="3" class="text-center">Chargement...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -214,85 +322,10 @@
 <script src="adminlte/plugins/jquery/jquery.min.js"></script>
 <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
+<script src="assets/js/dashboard-stats.js"></script>
 <script>
-// Chargement dynamique du dashboard via la route tout-en-un
-fetch('/api/admin/dashboard_stats')
-  .then(res => res.json())
-  .then(data => {
-    if(data.data) {
-      // Widgets
-      document.getElementById('total-eleves').textContent = data.data.total_eleves || 0;
-      document.getElementById('total-interros').textContent = data.data.total_interros || 0;
-      document.getElementById('total-notifications').textContent = data.data.total_notifications || 0;
-      document.getElementById('total-admins').textContent = data.data.total_admins || 0;
-
-      // Graphique sections
-      const sectionLabels = (data.data.sections || []).map(s => s.section);
-      const sectionValues = (data.data.sections || []).map(s => s.total);
-      new Chart(document.getElementById('sectionChart').getContext('2d'), {
-        type: 'doughnut',
-        data: {
-          labels: sectionLabels,
-          datasets: [{
-            data: sectionValues,
-            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6610f2']
-          }]
-        }
-      });
-
-      // Graphique interros par jour
-      const interroLabels = (data.data.interro_stats || []).map(row => row.jour);
-      const interroValues = (data.data.interro_stats || []).map(row => row.total);
-      new Chart(document.getElementById('interroChart').getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: interroLabels,
-          datasets: [{
-            label: 'Interros créées',
-            data: interroValues,
-            borderColor: '#17a2b8',
-            backgroundColor: 'rgba(23,162,184,0.1)',
-            fill: true
-          }]
-        }
-      });
-
-      // Graphique catégories d'activité
-      const catLabels = (data.data.cat_activite || []).map(c => c.categorie_activite);
-      const catValues = (data.data.cat_activite || []).map(c => c.total);
-      new Chart(document.getElementById('catActiviteChart').getContext('2d'), {
-        type: 'pie',
-        data: {
-          labels: catLabels,
-          datasets: [{
-            data: catValues,
-            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']
-          }]
-        }
-      });
-
-      // Graphique distribution des scores
-      const scoreLabels = (data.data.score_stats || []).map(s => s.score);
-      const scoreValues = (data.data.score_stats || []).map(s => s.total);
-      new Chart(document.getElementById('scoreChart').getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: scoreLabels,
-          datasets: [{
-            label: "Nombre d'élèves",
-            data: scoreValues,
-            backgroundColor: '#36b9cc'
-          }]
-        },
-        options: {
-          scales: {
-            y: { beginAtZero: true }
-          }
-        }
-      });
-    }
-  });
-// TODO: Charger la photo et le prénom de l'admin via l'API utilisateur
+// Le dashboard est maintenant géré par la classe DashboardStats
+// Chargement automatique des statistiques au chargement de la page
 </script>
 </body>
 </html>

@@ -177,4 +177,9 @@
 \Router\Router::get('/api/admin/dashboard_stats', function(){
     (new \Controllers\AdminController())->getDashboardStats();
 });
+
+// API Route - Dashboard stats optimisées
+\Router\Router::get('/api/stats/dashboard', function(){
+    (new \Controllers\StatsController())->getDashboardStats();
+});
 ?>
