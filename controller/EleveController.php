@@ -170,6 +170,62 @@ class EleveController extends BaseController
     }
 
     /**
+     * Mettre à jour l'établissement d'un élève
+     */
+    public function updateEtablissement($id)
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $input = $this->sanitizeInput($input);
+
+        try {
+            if (empty($input['etablissement'])) {
+                $this->errorResponse('Établissement requis', 422);
+            }
+
+            $result = $this->database->prepare(
+                "UPDATE eleves SET etablissement = ? WHERE id = ?",
+                [$input['etablissement'], $id]
+            );
+
+            if ($result > 0) {
+                $this->successResponse(null, 'Établissement mis à jour avec succès');
+            } else {
+                $this->errorResponse('Erreur lors de la mise à jour');
+            }
+        } catch (\Exception $e) {
+            $this->errorResponse('Erreur: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Mettre à jour la section d'un élève
+     */
+    public function updateSection($id)
+    {
+        $input = json_decode(file_get_contents('php://input'), true);
+        $input = $this->sanitizeInput($input);
+
+        try {
+            if (empty($input['section'])) {
+                $this->errorResponse('Section requise', 422);
+            }
+
+            $result = $this->database->prepare(
+                "UPDATE eleves SET section = ? WHERE id = ?",
+                [$input['section'], $id]
+            );
+
+            if ($result > 0) {
+                $this->successResponse(null, 'Section mise à jour avec succès');
+            } else {
+                $this->errorResponse('Erreur lors de la mise à jour');
+            }
+        } catch (\Exception $e) {
+            $this->errorResponse('Erreur: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Supprimer un élève
      */
     public function destroy($id)
@@ -177,6 +233,27 @@ class EleveController extends BaseController
         try {
             $result = $this->database->prepare(
                 "DELETE FROM eleves WHERE id = ?",
+                [$id]
+            );
+
+            if ($result > 0) {
+                $this->successResponse(null, 'Élève supprimé avec succès');
+            } else {
+                $this->errorResponse('Élève non trouvé', 404);
+            }
+        } catch (\Exception $e) {
+            $this->errorResponse('Erreur lors de la suppression: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Suppression douce d'un élève
+     */
+    public function softDelete($id)
+    {
+        try {
+            $result = $this->database->prepare(
+                "UPDATE eleves SET statut = 'deleted', date_suppression = NOW() WHERE id = ?",
                 [$id]
             );
 
@@ -227,6 +304,57 @@ class EleveController extends BaseController
             $this->successResponse($eleves, 'Élèves récupérés avec succès');
         } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la récupération des élèves: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Récupérer un élève par ID utilisateur
+     */
+    public function getByUtilisateurId($utilisateur_id)
+    {
+        try {
+            $eleve = $this->database->select(
+                "SELECT e.*, u.nom, u.prenom, u.email, u.telephone, u.sexe 
+                 FROM eleves e 
+                 JOIN utilisateurs u ON e.utilisateur_id = u.id 
+                 WHERE e.utilisateur_id = ?",
+                [$utilisateur_id]
+            );
+            
+            if (empty($eleve)) {
+                $this->errorResponse('Élève non trouvé', 404);
+            }
+            
+            $this->successResponse($eleve[0], 'Élève récupéré avec succès');
+        } catch (\Exception $e) {
+            $this->errorResponse('Erreur lors de la récupération de l\'élève: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Importer des élèves depuis Excel
+     */
+    public function importFromExcel()
+    {
+        try {
+            if (!isset($_FILES['file'])) {
+                $this->errorResponse('Aucun fichier fourni', 422);
+            }
+
+            $file = $_FILES['file'];
+
+            // Vérifier le type de fichier
+            $allowedTypes = ['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'text/csv'];
+            if (!in_array($file['type'], $allowedTypes)) {
+                $this->errorResponse('Type de fichier non supporté. Utilisez Excel ou CSV', 422);
+            }
+
+            // Utiliser la méthode du modèle Eleve
+            $imported = $this->eleve->importFromExcel($file['tmp_name']);
+
+            $this->successResponse(['imported_count' => $imported], 'Import des élèves réussi');
+        } catch (\Exception $e) {
+            $this->errorResponse('Erreur lors de l\'import: ' . $e->getMessage());
         }
     }
 }

@@ -1,45 +1,3 @@
-<?php
-session_start();
-require_once 'databaseconnect.php';
-require_once 'fonctions.php';
-
-if (!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur']['role'] !== 'admin_principal') {
-    header("Location:connexion.php");
-    exit();
-}
-$id = $_SESSION['utilisateur']['id'];
-// Récupération des stats (exemples)
-$total_eleves = $pdo->query("SELECT COUNT(*) FROM eleves")->fetchColumn();
-$total_interros = $pdo->query("SELECT COUNT(*) FROM quiz WHERE statut = 'actif'")->fetchColumn();
-$total_notifications = $pdo->query("SELECT COUNT(*) FROM notifications WHERE lue = 0 ")->fetchColumn();
-$total_admins = $pdo->query("SELECT COUNT(*) FROM utilisateurs WHERE role = 'admin_simple'")->fetchColumn();
-
-$sections = $pdo->query("SELECT section, COUNT(*) as total FROM eleves GROUP BY section")->fetchAll();
-$interro_stats = $pdo->query("SELECT DATE(date_lancement) as jour, COUNT(*) as total FROM quiz GROUP BY jour ORDER BY jour DESC LIMIT 7")->fetchAll();
-
-// Récupérer la répartition des élèves par catégorie_activité
-$cat_activite = $pdo->query("SELECT categorie_activite, COUNT(*) as total FROM eleves GROUP BY categorie_activite")->fetchAll();
-
-// Récupérer la distribution des scores (arrondis à l'entier)
-$score_stats = $pdo->query("SELECT FLOOR(score) as score, COUNT(*) as total FROM resultats WHERE score IS NOT NULL GROUP BY FLOOR(score) ORDER BY score")->fetchAll();
-
-// Gestion de la photo
-    $photoPath = null;
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-        $photoPath = 'uploads/avatars/' . uniqid() . '.' . $ext;
-        move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath);
-    }
-    
-
-    // Récupération des infos
-$stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE id = ?");
-$stmt->execute([$id]);
-$utilisateur = $stmt->fetch();
-$photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads/avatars/default.jpeg';
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -85,10 +43,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   <div class="sidebar">
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="<?= htmlspecialchars($utilisateur['photo']) ?>" class="img-circle elevation-2" alt="Admin">
+        <img id="photo-profil" src="uploads/avatars/default.jpeg" class="img-circle elevation-2" alt="Admin">
       </div>
       <div class="info">
-        <a href="#" class="d-block">Bienvenue <?= htmlspecialchars($utilisateur['prenom']) ?></a>
+        <a href="#" class="d-block">Bienvenue <span id="prenom-admin">Admin</span></a>
       </div>
     </div>
 
@@ -101,42 +59,36 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             <p>Tableau de bord</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="admin_eleve.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
             <p>Élèves</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="interro_admin.php" class="nav-link">
             <i class="nav-icon fas fa-book"></i>
             <p>Interrogations</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="resultats_admin.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
             <p>Résultats</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="question_admin.php" class="nav-link">
             <i class="nav-icon fas fa-question"></i>
             <p>Questions</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="gestion_notifications.php" class="nav-link">
             <i class="nav-icon fas fa-bell"></i>
             <p>Notifications</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="gestion_admins.php" class="nav-link">
             <i class="nav-icon fas fa-user-shield"></i>
@@ -149,21 +101,16 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <p>Mon Profil</p>
             </a>
           </li>
-
-
-        <!-- 🔥 Lien historique ajouté ici -->
         <li class="nav-item">
           <a href="historique_activites.php" class="nav-link">
             <i class="nav-icon fas fa-history"></i>
             <p>Historique des activités</p>
           </a>
         </li>
-
       </ul>
     </nav>
   </div>
 </aside>
-
 
   <div class="content-wrapper p-3">
     <div class="content">
@@ -172,7 +119,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
           <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
               <div class="inner">
-                <h3><?= $total_eleves ?></h3>
+                <h3 id="total-eleves">0</h3>
                 <p>Elèves inscrits</p>
               </div>
               <div class="icon">
@@ -181,11 +128,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <a href="admin_eleve.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
           <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
               <div class="inner">
-                <h3><?= $total_interros ?></h3>
+                <h3 id="total-interros">0</h3>
                 <p>Interros actives</p>
               </div>
               <div class="icon">
@@ -194,11 +140,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <a href="interro_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
           <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3><?= $total_notifications ?></h3>
+                <h3 id="total-notifications">0</h3>
                 <p>Notifications</p>
               </div>
               <div class="icon">
@@ -207,11 +152,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <a href="gestion_notifications.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
           <div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3><?= $total_admins ?></h3>
+                <h3 id="total-admins">0</h3>
                 <p>Admins simples</p>
               </div>
               <div class="icon">
@@ -221,7 +165,6 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             </div>
           </div>
         </div>
-
         <!-- Graphiques -->
         <div class="row">
           <div class="col-md-6">
@@ -259,11 +202,9 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-
   <footer class="main-footer">
     <div class="float-right d-none d-sm-inline">Admin Principal</div>
     <strong>&copy; 2025 MC-LEGENDE</strong>. Tous droits réservés.
@@ -274,65 +215,84 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
 <script>
-  const sectionCtx = document.getElementById('sectionChart').getContext('2d');
-  const interroCtx = document.getElementById('interroChart').getContext('2d');
-  const catActiviteCtx = document.getElementById('catActiviteChart').getContext('2d');
-  const scoreCtx = document.getElementById('scoreChart').getContext('2d');
+// Chargement dynamique du dashboard via la route tout-en-un
+fetch('/api/admin/dashboard_stats')
+  .then(res => res.json())
+  .then(data => {
+    if(data.data) {
+      // Widgets
+      document.getElementById('total-eleves').textContent = data.data.total_eleves || 0;
+      document.getElementById('total-interros').textContent = data.data.total_interros || 0;
+      document.getElementById('total-notifications').textContent = data.data.total_notifications || 0;
+      document.getElementById('total-admins').textContent = data.data.total_admins || 0;
 
-  new Chart(sectionCtx, {
-    type: 'doughnut',
-    data: {
-      labels: [<?php foreach ($sections as $s) echo "'{$s['section']}',"; ?>],
-      datasets: [{
-        data: [<?php foreach ($sections as $s) echo "{$s['total']},"; ?>],
-        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6610f2']
-      }]
+      // Graphique sections
+      const sectionLabels = (data.data.sections || []).map(s => s.section);
+      const sectionValues = (data.data.sections || []).map(s => s.total);
+      new Chart(document.getElementById('sectionChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+          labels: sectionLabels,
+          datasets: [{
+            data: sectionValues,
+            backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6610f2']
+          }]
+        }
+      });
+
+      // Graphique interros par jour
+      const interroLabels = (data.data.interro_stats || []).map(row => row.jour);
+      const interroValues = (data.data.interro_stats || []).map(row => row.total);
+      new Chart(document.getElementById('interroChart').getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: interroLabels,
+          datasets: [{
+            label: 'Interros créées',
+            data: interroValues,
+            borderColor: '#17a2b8',
+            backgroundColor: 'rgba(23,162,184,0.1)',
+            fill: true
+          }]
+        }
+      });
+
+      // Graphique catégories d'activité
+      const catLabels = (data.data.cat_activite || []).map(c => c.categorie_activite);
+      const catValues = (data.data.cat_activite || []).map(c => c.total);
+      new Chart(document.getElementById('catActiviteChart').getContext('2d'), {
+        type: 'pie',
+        data: {
+          labels: catLabels,
+          datasets: [{
+            data: catValues,
+            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']
+          }]
+        }
+      });
+
+      // Graphique distribution des scores
+      const scoreLabels = (data.data.score_stats || []).map(s => s.score);
+      const scoreValues = (data.data.score_stats || []).map(s => s.total);
+      new Chart(document.getElementById('scoreChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: scoreLabels,
+          datasets: [{
+            label: "Nombre d'élèves",
+            data: scoreValues,
+            backgroundColor: '#36b9cc'
+          }]
+        },
+        options: {
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
     }
   });
-
-  new Chart(interroCtx, {
-    type: 'line',
-    data: {
-      labels: [<?php foreach ($interro_stats as $row) echo "'{$row['jour']}',"; ?>],
-      datasets: [{
-        label: 'Interros créées',
-        data: [<?php foreach ($interro_stats as $row) echo "{$row['total']},"; ?>],
-        borderColor: '#17a2b8',
-        backgroundColor: 'rgba(23,162,184,0.1)',
-        fill: true
-      }]
-    }
-  });
-
-  // Élèves par catégorie_activite
-  new Chart(catActiviteCtx, {
-    type: 'pie',
-    data: {
-      labels: [<?php foreach ($cat_activite as $c) echo "'{$c['categorie_activite']}',"; ?>],
-      datasets: [{
-        data: [<?php foreach ($cat_activite as $c) echo "{$c['total']},"; ?>],
-        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']
-      }]
-    }
-  });
-
-  // Distribution des scores
-  new Chart(scoreCtx, {
-    type: 'bar',
-    data: {
-      labels: [<?php foreach ($score_stats as $s) echo "'{$s['score']}',"; ?>],
-      datasets: [{
-        label: 'Nombre d\'élèves',
-        data: [<?php foreach ($score_stats as $s) echo "{$s['total']},"; ?>],
-        backgroundColor: '#36b9cc'
-      }]
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true }
-      }
-    }
-  });
+// TODO: Charger la photo et le prénom de l'admin via l'API utilisateur
 </script>
 </body>
 </html>

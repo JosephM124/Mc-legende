@@ -393,23 +393,23 @@ INSERT INTO `notifications` (`id`, `utilisateur_id`, `quiz_id`, `type`, `titre`,
 (77, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 1, '2025-06-16 11:34:25', 'eleve', 1, 'danse'),
 (78, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 1, '2025-06-16 11:57:12', 'eleve', 1, 'danse'),
 (79, 22, 31, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Dance interrogation 3\' est prête à être commencée.', 'mes_interro.php?id=31', 1, '2025-06-16 11:57:20', NULL, 0, NULL),
-(80, 7, 27, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Test\" ont été publiés. Consulte ton espace.', 'mes_resultats.php', 1, '2025-06-16 22:38:13', 'eleve', 1, 'resultat'),
-(81, 7, 21, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Mue\" ont été publiés. Consulte ton espace.', 'mes_resultats.php', 1, '2025-06-16 22:38:42', 'eleve', 1, 'resultat'),
-(82, 22, 30, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Dance interrogation 2\" ont été publiés. Consulte ton espace.', 'resultats.php', 1, '2025-06-16 22:43:45', 'eleve', 1, 'resultat'),
-(83, 4, 28, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Art Interrogation 2\" ont été publiés. Consulte ton espace.', 'resultats.php', 1, '2025-06-16 22:46:33', 'eleve', 1, 'resultat'),
-(84, 17, 28, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Art Interrogation 2\" ont été publiés. Consulte ton espace.', 'resultats.php', 1, '2025-06-16 22:46:33', 'eleve', 1, 'resultat'),
-(85, 22, 31, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Dance interrogation 3\" sont maintenant disponibles.', 'mes_resultats.php', 1, '2025-06-16 23:10:14', 'eleve', 1, 'resultat'),
-(86, 22, 30, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Dance interrogation 2\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-16 23:25:57', 'eleve', 1, 'resultat'),
-(87, 22, 29, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Dance interrogation 1\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-17 01:21:34', 'eleve', 1, 'resultat'),
-(88, 7, 27, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Test\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-17 01:24:46', 'eleve', 1, 'resultat'),
-(89, 7, 21, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Mue\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-17 01:26:52', 'eleve', 1, 'resultat'),
-(90, 17, 20, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"bn\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-17 01:28:13', 'eleve', 1, 'resultat'),
+(80, 7, 27, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Test\" ont été publiés. Consulte ton espace.', 'mes_resultats.php', 1, '2025-06-16 22:38:13', 'eleve', 1, 'resultat'),
+(81, 7, 21, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Mue\" ont été publiés. Consulte ton espace.', 'mes_resultats.php', 1, '2025-06-16 22:38:42', 'eleve', 1, 'resultat'),
+(82, 22, 30, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Dance interrogation 2\" ont été publiés. Consulte ton espace.', 'resultats.php', 1, '2025-06-16 22:43:45', 'eleve', 1, 'resultat'),
+(83, 4, 28, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Art Interrogation 2\" ont été publiés. Consulte ton espace.', 'resultats.php', 1, '2025-06-16 22:46:33', 'eleve', 1, 'resultat'),
+(84, 17, 28, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Art Interrogation 2\" ont été publiés. Consulte ton espace.', 'resultats.php', 1, '2025-06-16 22:46:33', 'eleve', 1, 'resultat'),
+(85, 22, 31, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Dance interrogation 3\" sont maintenant disponibles.', 'mes_resultats.php', 1, '2025-06-16 23:10:14', 'eleve', 1, 'resultat'),
+(86, 22, 30, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Dance interrogation 2\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-16 23:25:57', 'eleve', 1, 'resultat'),
+(87, 22, 29, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Dance interrogation 1\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-17 01:21:34', 'eleve', 1, 'resultat'),
+(88, 7, 27, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Test\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-17 01:24:46', 'eleve', 1, 'resultat'),
+(89, 7, 21, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Mue\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-17 01:26:52', 'eleve', 1, 'resultat'),
+(90, 17, 20, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"bn\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-17 01:28:13', 'eleve', 1, 'resultat'),
 (91, 17, NULL, '', 'Nouvelle notification', 'Historique', 'notifications.php', 1, '2025-06-17 01:52:52', NULL, 0, NULL),
 (92, 17, NULL, '', 'Nouvelle notification', 'Historique', 'notifications.php', 1, '2025-06-17 01:53:35', NULL, 0, NULL),
-(94, 7, NULL, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"catégorie musique interro 1\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-17 12:33:55', 'eleve', 1, 'resultat'),
+(94, 7, NULL, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"catégorie musique interro 1\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-17 12:33:55', 'eleve', 1, 'resultat'),
 (95, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-17 12:37:36', 'eleve', 1, 'art'),
 (96, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-17 12:37:37', 'eleve', 1, 'art'),
-(97, 17, 32, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art Interrogation 3\' est prête à être commencée.', 'mes_interro.php?id=32', 1, '2025-06-17 12:38:13', NULL, 0, NULL),
+(97, 17, 32, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art Interrogation 3\' est prête à être commencée.', 'mes_interro.php?id=32', 1, '2025-06-17 12:38:13', NULL, 0, NULL),
 (98, 4, NULL, '', 'Systeme', 'hello', 'notifications.php', 1, '2025-06-20 05:54:13', 'eleve', 1, 'art'),
 (99, 17, NULL, '', 'Systeme', 'hello', 'notifications.php', 1, '2025-06-20 05:54:13', 'eleve', 1, 'art'),
 (100, 4, NULL, '', 'Systeme', 'hi', 'notifications.php', 1, '2025-06-20 05:56:47', 'eleve', 1, NULL),
@@ -435,7 +435,7 @@ INSERT INTO `notifications` (`id`, `utilisateur_id`, `quiz_id`, `type`, `titre`,
 (120, 17, NULL, '', 'Go28', 'vcvbn,;', 'notifications.php', 1, '2025-06-21 15:43:05', 'eleve', 1, NULL),
 (121, 22, NULL, '', 'Go28', 'vcvbn,;', 'notifications.php', 0, '2025-06-21 15:43:05', 'eleve', 1, NULL),
 (122, 23, NULL, '', 'Go28', 'vcvbn,;', 'notifications.php', 1, '2025-06-21 15:43:05', 'eleve', 1, NULL),
-(123, 7, 27, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Test\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-21 15:49:20', 'eleve', 1, 'resultat'),
+(123, 7, 27, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Test\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-21 15:49:20', 'eleve', 1, 'resultat'),
 (124, 7, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : musique', 'mes_interro.php', 1, '2025-06-21 16:20:27', 'eleve', 1, 'musique'),
 (125, 7, NULL, '', 'Go29', 'kjhgfdfg', 'notifications.php', 1, '2025-06-21 16:45:32', 'eleve', 1, 'musique'),
 (126, 4, NULL, '', 'Go29', 'kjhgf', 'notifications.php', 1, '2025-06-21 16:47:07', 'eleve', 1, 'art'),
@@ -444,91 +444,91 @@ INSERT INTO `notifications` (`id`, `utilisateur_id`, `quiz_id`, `type`, `titre`,
 (129, 17, NULL, '', 'Go30', 'dfghjk', 'notifications.php', 0, '2025-06-21 16:55:32', 'eleve', 1, 'art'),
 (130, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-21 17:53:50', 'eleve', 1, 'art'),
 (131, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-21 17:53:50', 'eleve', 1, 'art'),
-(132, 4, 34, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art4\' est prête à être commencée.', 'mes_interro.php?id=34', 0, '2025-06-21 17:53:55', NULL, 0, NULL),
+(132, 4, 34, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art4\' est prête à être commencée.', 'mes_interro.php?id=34', 0, '2025-06-21 17:53:55', NULL, 0, NULL),
 (133, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-21 17:59:02', 'eleve', 1, 'art'),
 (134, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-21 17:59:02', 'eleve', 1, 'art'),
-(135, 4, 34, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Art4\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-21 18:02:34', 'eleve', 1, 'resultat'),
+(135, 4, 34, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Art4\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-21 18:02:34', 'eleve', 1, 'resultat'),
 (136, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 0, '2025-06-21 21:58:53', 'eleve', 1, 'art'),
 (137, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-21 21:58:53', 'eleve', 1, 'art'),
-(138, 17, 34, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art4\' est prête à être commencée.', 'mes_interro.php?id=34', 0, '2025-06-21 21:59:41', NULL, 0, NULL),
+(138, 17, 34, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art4\' est prête à être commencée.', 'mes_interro.php?id=34', 0, '2025-06-21 21:59:41', NULL, 0, NULL),
 (139, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 0, '2025-06-21 22:19:55', 'eleve', 1, 'art'),
 (140, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-21 22:19:55', 'eleve', 1, 'art'),
-(141, 4, 35, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art5\' est prête à être commencée.', 'mes_interro.php?id=35', 0, '2025-06-21 22:28:29', NULL, 0, NULL),
+(141, 4, 35, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art5\' est prête à être commencée.', 'mes_interro.php?id=35', 0, '2025-06-21 22:28:29', NULL, 0, NULL),
 (142, 7, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : musique', 'mes_interro.php', 1, '2025-06-21 23:32:42', 'eleve', 1, 'musique'),
-(143, 7, 36, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Musique12\' est prête à être commencée.', 'mes_interro.php?id=36', 0, '2025-06-21 23:33:22', NULL, 0, NULL),
+(143, 7, 36, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Musique12\' est prête à être commencée.', 'mes_interro.php?id=36', 0, '2025-06-21 23:33:22', NULL, 0, NULL),
 (144, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-21 23:58:21', 'eleve', 1, 'danse'),
 (145, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 1, '2025-06-21 23:58:21', 'eleve', 1, 'danse'),
-(146, 23, 37, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Dance1\' est prête à être commencée.', 'mes_interro.php?id=37', 0, '2025-06-21 23:59:29', NULL, 0, NULL),
+(146, 23, 37, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Dance1\' est prête à être commencée.', 'mes_interro.php?id=37', 0, '2025-06-21 23:59:29', NULL, 0, NULL),
 (147, 7, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : musique', 'mes_interro.php', 1, '2025-06-22 00:16:53', 'eleve', 1, 'musique'),
 (148, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 00:17:56', 'eleve', 1, 'danse'),
 (149, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 1, '2025-06-22 00:17:56', 'eleve', 1, 'danse'),
-(150, 22, 37, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Dance1\' est prête à être commencée.', 'mes_interro.php?id=37', 0, '2025-06-22 00:29:05', NULL, 0, NULL),
+(150, 22, 37, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Dance1\' est prête à être commencée.', 'mes_interro.php?id=37', 0, '2025-06-22 00:29:05', NULL, 0, NULL),
 (151, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 00:43:06', 'eleve', 1, 'danse'),
 (152, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 1, '2025-06-22 00:43:06', 'eleve', 1, 'danse'),
 (153, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 00:46:04', 'eleve', 1, 'danse'),
 (154, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 1, '2025-06-22 00:46:04', 'eleve', 1, 'danse'),
-(155, 23, 30, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Dance interrogation 2\' est prête à être commencée.', 'mes_interro.php?id=30', 0, '2025-06-22 00:53:41', NULL, 0, NULL),
-(156, 23, 37, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Dance1\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-22 00:56:36', 'eleve', 1, NULL),
-(157, 22, 37, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Dance1\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-22 00:56:36', 'eleve', 1, NULL),
+(155, 23, 30, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Dance interrogation 2\' est prête à être commencée.', 'mes_interro.php?id=30', 0, '2025-06-22 00:53:41', NULL, 0, NULL),
+(156, 23, 37, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Dance1\" sont maintenant disponibles.', 'resultats.php', 1, '2025-06-22 00:56:36', 'eleve', 1, NULL),
+(157, 22, 37, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Dance1\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-22 00:56:36', 'eleve', 1, NULL),
 (158, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 0, '2025-06-22 01:36:57', 'eleve', 1, 'art'),
 (159, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-22 01:36:57', 'eleve', 1, 'art'),
-(160, 17, 38, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Artefact3\' est prête à être commencée.', 'mes_interro.php?id=38', 0, '2025-06-22 01:37:17', NULL, 0, NULL),
-(161, 4, 38, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Artefact3\' est prête à être commencée.', 'mes_interro.php?id=38', 0, '2025-06-22 01:41:20', NULL, 0, NULL),
+(160, 17, 38, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Artefact3\' est prête à être commencée.', 'mes_interro.php?id=38', 0, '2025-06-22 01:37:17', NULL, 0, NULL),
+(161, 4, 38, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Artefact3\' est prête à être commencée.', 'mes_interro.php?id=38', 0, '2025-06-22 01:41:20', NULL, 0, NULL),
 (162, 7, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : musique', 'mes_interro.php', 1, '2025-06-22 01:45:44', 'eleve', 1, 'musique'),
-(163, 7, 39, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Musique13\' est prête à être commencée.', 'mes_interro.php?id=39', 0, '2025-06-22 01:46:04', NULL, 0, NULL),
+(163, 7, 39, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Musique13\' est prête à être commencée.', 'mes_interro.php?id=39', 0, '2025-06-22 01:46:04', NULL, 0, NULL),
 (164, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 1, '2025-06-22 01:53:27', 'eleve', 1, 'danse'),
 (165, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 01:53:27', 'eleve', 1, 'danse'),
-(166, 23, 40, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Dance4\' est prête à être commencée.', 'mes_interro.php?id=40', 0, '2025-06-22 01:53:56', NULL, 0, NULL),
+(166, 23, 40, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Dance4\' est prête à être commencée.', 'mes_interro.php?id=40', 0, '2025-06-22 01:53:56', NULL, 0, NULL),
 (167, 7, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : musique', 'mes_interro.php', 1, '2025-06-22 02:22:51', 'eleve', 1, 'musique'),
 (168, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 02:24:48', 'eleve', 1, 'danse'),
 (169, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 02:24:48', 'eleve', 1, 'danse'),
 (170, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 02:46:57', 'eleve', 1, 'danse'),
 (171, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 02:46:57', 'eleve', 1, 'danse'),
-(172, 22, 41, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Dance5\' est prête à être commencée.', 'mes_interro.php?id=41', 0, '2025-06-22 02:47:09', NULL, 0, NULL),
-(173, 23, 41, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Dance5\' est prête à être commencée.', 'mes_interro.php?id=41', 0, '2025-06-22 02:51:35', NULL, 0, NULL),
+(172, 22, 41, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Dance5\' est prête à être commencée.', 'mes_interro.php?id=41', 0, '2025-06-22 02:47:09', NULL, 0, NULL),
+(173, 23, 41, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Dance5\' est prête à être commencée.', 'mes_interro.php?id=41', 0, '2025-06-22 02:51:35', NULL, 0, NULL),
 (174, 22, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 22:01:41', 'eleve', 1, 'danse'),
 (175, 23, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : danse', 'mes_interro.php', 0, '2025-06-22 22:01:41', 'eleve', 1, 'danse'),
-(176, 24, 42, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Culture général 1\' est prête à être commencée.', 'mes_interro.php?id=42', 0, '2025-06-22 22:10:16', NULL, 0, NULL),
+(176, 24, 42, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Culture général 1\' est prête à être commencée.', 'mes_interro.php?id=42', 0, '2025-06-22 22:10:16', NULL, 0, NULL),
 (177, 26, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : culture générale', 'mes_interro.php', 1, '2025-06-22 22:48:48', 'eleve', 1, 'culture générale'),
-(178, 26, 42, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Culture général 1\' est prête à être commencée.', 'mes_interro.php?id=42', 0, '2025-06-22 22:49:17', NULL, 0, NULL),
+(178, 26, 42, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Culture général 1\' est prête à être commencée.', 'mes_interro.php?id=42', 0, '2025-06-22 22:49:17', NULL, 0, NULL),
 (179, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-22 22:54:41', 'eleve', 1, 'art'),
 (180, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-22 22:54:42', 'eleve', 1, 'art'),
-(181, 17, 43, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art4_1\' est prête à être commencée.', 'mes_interro.php?id=43', 0, '2025-06-22 22:55:17', NULL, 0, NULL),
+(181, 17, 43, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art4_1\' est prête à être commencée.', 'mes_interro.php?id=43', 0, '2025-06-22 22:55:17', NULL, 0, NULL),
 (182, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 01:07:57', 'eleve', 1, 'art'),
 (183, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 0, '2025-06-23 01:07:57', 'eleve', 1, 'art'),
-(184, 4, 43, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art4_1\' est prête à être commencée.', 'mes_interro.php?id=43', 0, '2025-06-23 01:08:03', NULL, 0, NULL),
+(184, 4, 43, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art4_1\' est prête à être commencée.', 'mes_interro.php?id=43', 0, '2025-06-23 01:08:03', NULL, 0, NULL),
 (185, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 01:33:02', 'eleve', 1, 'art'),
 (186, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 0, '2025-06-23 01:33:02', 'eleve', 1, 'art'),
 (187, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 01:53:00', 'eleve', 1, 'art'),
 (188, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 01:53:00', 'eleve', 1, 'art'),
-(189, 17, 44, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art4_2\' est prête à être commencée.', 'mes_interro.php?id=44', 0, '2025-06-23 01:53:39', NULL, 0, NULL),
+(189, 17, 44, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art4_2\' est prête à être commencée.', 'mes_interro.php?id=44', 0, '2025-06-23 01:53:39', NULL, 0, NULL),
 (190, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 02:23:00', 'eleve', 1, 'art'),
 (191, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 02:23:00', 'eleve', 1, 'art'),
-(192, 4, 44, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art4_2\' est prête à être commencée.', 'mes_interro.php?id=44', 0, '2025-06-23 02:23:13', NULL, 0, NULL),
+(192, 4, 44, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art4_2\' est prête à être commencée.', 'mes_interro.php?id=44', 0, '2025-06-23 02:23:13', NULL, 0, NULL),
 (193, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 02:27:48', 'eleve', 1, 'art'),
 (194, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-06-23 02:27:48', 'eleve', 1, 'art'),
 (195, 26, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : culture générale', 'mes_interro.php', 1, '2025-06-23 02:36:32', 'eleve', 1, 'culture générale'),
-(196, 26, 46, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Culture général 1_2\' est prête à être commencée.', 'mes_interro.php?id=46', 0, '2025-06-23 02:37:06', NULL, 0, NULL),
-(197, 24, 46, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Culture général 1_2\' est prête à être commencée.', 'mes_interro.php?id=46', 0, '2025-06-23 02:42:09', NULL, 0, NULL),
-(198, 26, 46, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Culture général 1_2\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-23 02:49:06', 'eleve', 1, ''),
-(199, 24, 46, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Culture général 1_2\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-23 02:49:06', 'eleve', 1, ''),
+(196, 26, 46, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Culture général 1_2\' est prête à être commencée.', 'mes_interro.php?id=46', 0, '2025-06-23 02:37:06', NULL, 0, NULL),
+(197, 24, 46, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Culture général 1_2\' est prête à être commencée.', 'mes_interro.php?id=46', 0, '2025-06-23 02:42:09', NULL, 0, NULL),
+(198, 26, 46, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Culture général 1_2\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-23 02:49:06', 'eleve', 1, ''),
+(199, 24, 46, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Culture général 1_2\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-23 02:49:06', 'eleve', 1, ''),
 (200, 24, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : culture générale', 'mes_interro.php', 1, '2025-06-23 02:50:22', 'eleve', 1, 'culture générale'),
 (201, 26, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : culture générale', 'mes_interro.php', 0, '2025-06-23 02:50:22', 'eleve', 1, 'culture générale'),
 (202, 7, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : musique', 'mes_interro.php', 1, '2025-06-23 12:36:45', 'eleve', 1, 'musique'),
-(203, 7, 48, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Musique_1_2\' est prête à être commencée.', 'mes_interro.php?id=48', 0, '2025-06-23 12:36:50', NULL, 0, NULL),
-(204, 7, 48, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"Musique_1_2\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-28 12:18:43', 'eleve', 1, ''),
-(205, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art Interrogation 2-0_0\' est prête à être commencée.', 'mes_interro.php?id=49', 0, '2025-07-01 12:12:26', NULL, 0, NULL),
+(203, 7, 48, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Musique_1_2\' est prête à être commencée.', 'mes_interro.php?id=48', 0, '2025-06-23 12:36:50', NULL, 0, NULL),
+(204, 7, 48, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"Musique_1_2\" sont maintenant disponibles.', 'resultats.php', 0, '2025-06-28 12:18:43', 'eleve', 1, ''),
+(205, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art Interrogation 2-0_0\' est prête à être commencée.', 'mes_interro.php?id=49', 0, '2025-07-01 12:12:26', NULL, 0, NULL),
 (206, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-01 12:22:57', 'eleve', 1, 'art'),
 (207, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-01 12:22:57', 'eleve', 1, 'art'),
-(208, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art Interrogation 2-0_0\' est prête à être commencée.', 'mes_interro.php?id=49', 0, '2025-07-01 12:23:36', NULL, 0, NULL),
+(208, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art Interrogation 2-0_0\' est prête à être commencée.', 'mes_interro.php?id=49', 0, '2025-07-01 12:23:36', NULL, 0, NULL),
 (209, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-01 12:31:22', 'eleve', 1, 'art'),
 (210, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-01 12:31:22', 'eleve', 1, 'art'),
 (211, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-01 12:43:28', 'eleve', 1, 'art'),
 (212, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-01 12:43:28', 'eleve', 1, 'art'),
-(213, 4, 50, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art Interrogation 2-0_1\' est prête à être commencée.', 'mes_interro.php?id=50', 0, '2025-07-01 12:46:54', NULL, 0, NULL),
-(214, 4, 51, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art Interrogation 2-0_2\' est prête à être commencée.', 'mes_interro.php?id=51', 0, '2025-07-01 12:50:55', NULL, 0, NULL),
-(215, 4, 52, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art Interrogation 2-0_3\' est prête à être commencée.', 'mes_interro.php?id=52', 0, '2025-07-01 14:37:07', NULL, 0, NULL),
-(216, 17, 52, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Art Interrogation 2-0_3\' est prête à être commencée.', 'mes_interro.php?id=52', 0, '2025-07-01 14:44:09', NULL, 0, NULL),
+(213, 4, 50, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art Interrogation 2-0_1\' est prête à être commencée.', 'mes_interro.php?id=50', 0, '2025-07-01 12:46:54', NULL, 0, NULL),
+(214, 4, 51, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art Interrogation 2-0_2\' est prête à être commencée.', 'mes_interro.php?id=51', 0, '2025-07-01 12:50:55', NULL, 0, NULL),
+(215, 4, 52, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art Interrogation 2-0_3\' est prête à être commencée.', 'mes_interro.php?id=52', 0, '2025-07-01 14:37:07', NULL, 0, NULL),
+(216, 17, 52, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Art Interrogation 2-0_3\' est prête à être commencée.', 'mes_interro.php?id=52', 0, '2025-07-01 14:44:09', NULL, 0, NULL),
 (218, 17, NULL, '', 'gfd', 'jhgfd', 'notifications.php', 0, '2025-07-01 23:04:56', NULL, 0, 'art'),
 (219, 4, NULL, '', 'sdfg', 'sdfg', 'notifications.php', 1, '2025-07-01 23:06:30', 'eleve', 1, 'art'),
 (220, 17, NULL, '', 'sdfg', 'sdfg', 'notifications.php', 1, '2025-07-01 23:06:30', 'eleve', 1, 'art'),
@@ -538,15 +538,15 @@ INSERT INTO `notifications` (`id`, `utilisateur_id`, `quiz_id`, `type`, `titre`,
 (225, 26, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : culture générale', 'mes_interro.php', 0, '2025-07-02 13:11:40', 'eleve', 1, 'culture générale'),
 (226, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-02 23:40:38', 'eleve', 1, 'art'),
 (227, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-02 23:40:38', 'eleve', 1, 'art'),
-(228, 17, 53, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'A_1_0\' est prête à être commencée.', 'mes_interro.php?id=53', 0, '2025-07-02 23:43:50', NULL, 0, NULL),
-(229, 17, 55, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'A_0\' est prête à être commencée.', 'mes_interro.php?id=55', 0, '2025-07-03 10:36:07', NULL, 0, NULL),
-(230, 17, 55, 'resultat', 'Résultats disponibles', 'Les résultats de l’interrogation \"A_0\" sont maintenant disponibles.', 'resultats.php', 0, '2025-07-03 10:40:20', 'eleve', 1, ''),
-(231, 4, 55, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'A_0\' est prête à être commencée.', 'mes_interro.php?id=55', 0, '2025-07-03 10:48:21', NULL, 0, NULL),
-(232, 31, 59, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Musique_1_2_3\' est prête à être commencée.', 'mes_interro.php?id=59', 0, '2025-07-03 11:29:19', NULL, 0, NULL),
+(228, 17, 53, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'A_1_0\' est prête à être commencée.', 'mes_interro.php?id=53', 0, '2025-07-02 23:43:50', NULL, 0, NULL),
+(229, 17, 55, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'A_0\' est prête à être commencée.', 'mes_interro.php?id=55', 0, '2025-07-03 10:36:07', NULL, 0, NULL),
+(230, 17, 55, 'resultat', 'Résultats disponibles', 'Les résultats de l'interrogation \"A_0\" sont maintenant disponibles.', 'resultats.php', 0, '2025-07-03 10:40:20', 'eleve', 1, ''),
+(231, 4, 55, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'A_0\' est prête à être commencée.', 'mes_interro.php?id=55', 0, '2025-07-03 10:48:21', NULL, 0, NULL),
+(232, 31, 59, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Musique_1_2_3\' est prête à être commencée.', 'mes_interro.php?id=59', 0, '2025-07-03 11:29:19', NULL, 0, NULL),
 (233, 4, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 0, '2025-07-03 11:46:15', 'eleve', 1, 'art'),
 (234, 17, NULL, 'quiz', 'Nouvelle interrogation disponible', 'Une nouvelle interrogation est disponible dans la catégorie : art', 'mes_interro.php', 1, '2025-07-03 11:46:15', 'eleve', 1, 'art'),
-(235, 17, 60, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'JedA\' est prête à être commencée.', 'mes_interro.php?id=60', 0, '2025-07-03 11:46:54', NULL, 0, NULL),
-(236, 7, 61, 'quiz', 'Nouvelle interrogation disponible', 'L\'interrogation \'Mue_1\' est prête à être commencée.', 'mes_interro.php?id=61', 0, '2025-07-03 12:00:05', NULL, 0, NULL);
+(235, 17, 60, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'JedA\' est prête à être commencée.', 'mes_interro.php?id=60', 0, '2025-07-03 11:46:54', NULL, 0, NULL),
+(236, 7, 61, 'quiz', 'Nouvelle interrogation disponible', 'L'interrogation \'Mue_1\' est prête à être commencée.', 'mes_interro.php?id=61', 0, '2025-07-03 12:00:05', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -870,6 +870,25 @@ INSERT INTO `utilisateurs` (`id`, `nom`, `email`, `mot_de_passe`, `role`, `date_
 (30, 'Bitcho', 'bitchokazadi@gmail.com', '$2y$10$As3T0f/c2vPB4Xj2AFEDI.vPveXF5Acj0Y1UjFgAwUezUxK7luSYK', 'eleve', '2025-07-02 13:59:46', NULL, NULL, 'uploads/avatars/68652ddcdc038.jpg', '0982573459', 'Kazadi', 'Miradi', 'Limete funa', 'Femme', '', 1, NULL),
 (31, 'Tshite', 'tshitegabi@gmail.com', '$2y$10$qWSDonyF6Hcc5vIBOaYkv.rrPQ8TIZtzN1alNn4J81YmCmc2OIOiK', 'eleve', '2025-07-03 11:10:23', NULL, NULL, 'uploads/avatars/68665789be33b.png', '0825697538', 'Mukadi', 'Gabi', 'Limete funa 22', 'Homme', '', 1, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `sessions`
+--
+
+CREATE TABLE `sessions` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `date_debut` datetime DEFAULT current_timestamp(),
+  `date_fin` datetime NOT NULL,
+  `active` tinyint(1) DEFAULT 1,
+  `created_at` timestamp DEFAULT current_timestamp(),
+  `updated_at` timestamp DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Index pour les tables déchargées
 --
@@ -959,6 +978,16 @@ ALTER TABLE `resultats`
 ALTER TABLE `utilisateurs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Index pour la table `sessions`
+--
+ALTER TABLE `sessions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token` (`token`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `date_fin` (`date_fin`),
+  ADD KEY `active` (`active`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -1066,31 +1095,4 @@ ALTER TABLE `interrogation_utilisateur`
 --
 ALTER TABLE `notifications`
   ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`) ON DELETE SET NULL;
-
---
--- Contraintes pour la table `quiz_questions`
---
-ALTER TABLE `quiz_questions`
-  ADD CONSTRAINT `quiz_questions_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`),
-  ADD CONSTRAINT `quiz_questions_ibfk_2` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`);
-
---
--- Contraintes pour la table `reponses`
---
-ALTER TABLE `reponses`
-  ADD CONSTRAINT `reponses_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`),
-  ADD CONSTRAINT `reponses_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`),
-  ADD CONSTRAINT `reponses_ibfk_3` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`);
-
---
--- Contraintes pour la table `resultats`
---
-ALTER TABLE `resultats`
-  ADD CONSTRAINT `resultats_ibfk_1` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateurs` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `resultats_ibfk_2` FOREIGN KEY (`quiz_id`) REFERENCES `quiz` (`id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  ADD CONSTRAINT `notifications_ibfk_2` FOREIGN KEY (`

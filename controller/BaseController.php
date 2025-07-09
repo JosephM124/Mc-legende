@@ -74,7 +74,7 @@ abstract class BaseController
     public function logout(){
        session_unset();
        session_destroy();
-       header("Location: /");
+       header("Location: /index");
        exit();
     }
 
@@ -85,7 +85,7 @@ abstract class BaseController
                 break;
             case 'admin_simple':
                 $admin = (new AdminController())->enregistrer_activite_admin($_SESSION['utilisateur']['id'], "Connexion d'un admin", "Nom : " . $_SESSION['utilisateur']['nom'] . " | Email : " . $_SESSION['utilisateur']['email']);
-                header('Location: admin_simple.php');
+                header('Location: views/admin_principal.php');
             break;
             case 'admin_principal':
                 header('Location: /admin/home');
