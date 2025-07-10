@@ -1,45 +1,3 @@
-<?php
-session_start();
-require_once 'databaseconnect.php';
-require_once 'fonctions.php';
-
-if (!isset($_SESSION['utilisateur']) || $_SESSION['utilisateur']['role'] !== 'admin_principal') {
-    header("Location:connexion.php");
-    exit();
-}
-$id = $_SESSION['utilisateur']['id'];
-// Récupération des stats (exemples)
-$total_eleves = $pdo->query("SELECT COUNT(*) FROM eleves")->fetchColumn();
-$total_interros = $pdo->query("SELECT COUNT(*) FROM quiz WHERE statut = 'actif'")->fetchColumn();
-$total_notifications = $pdo->query("SELECT COUNT(*) FROM notifications WHERE lue = 0 ")->fetchColumn();
-$total_admins = $pdo->query("SELECT COUNT(*) FROM utilisateurs WHERE role = 'admin_simple'")->fetchColumn();
-
-$sections = $pdo->query("SELECT section, COUNT(*) as total FROM eleves GROUP BY section")->fetchAll();
-$interro_stats = $pdo->query("SELECT DATE(date_lancement) as jour, COUNT(*) as total FROM quiz GROUP BY jour ORDER BY jour DESC LIMIT 7")->fetchAll();
-
-// Récupérer la répartition des élèves par catégorie_activité
-$cat_activite = $pdo->query("SELECT categorie_activite, COUNT(*) as total FROM eleves GROUP BY categorie_activite")->fetchAll();
-
-// Récupérer la distribution des scores (arrondis à l'entier)
-$score_stats = $pdo->query("SELECT FLOOR(score) as score, COUNT(*) as total FROM resultats WHERE score IS NOT NULL GROUP BY FLOOR(score) ORDER BY score")->fetchAll();
-
-// Gestion de la photo
-    $photoPath = null;
-    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
-        $ext = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-        $photoPath = 'uploads/avatars/' . uniqid() . '.' . $ext;
-        move_uploaded_file($_FILES['photo']['tmp_name'], $photoPath);
-    }
-    
-
-    // Récupération des infos
-$stmt = $pdo->prepare("SELECT * FROM utilisateurs WHERE id = ?");
-$stmt->execute([$id]);
-$utilisateur = $stmt->fetch();
-$photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads/avatars/default.jpeg';
-
-?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -85,10 +43,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   <div class="sidebar">
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="<?= htmlspecialchars($utilisateur['photo']) ?>" class="img-circle elevation-2" alt="Admin">
+        <img id="photo-profil" src="uploads/avatars/default.jpeg" class="img-circle elevation-2" alt="Admin">
       </div>
       <div class="info">
-        <a href="#" class="d-block">Bienvenue <?= htmlspecialchars($utilisateur['prenom']) ?></a>
+        <a href="#" class="d-block">Bienvenue <span id="prenom-admin">Admin</span></a>
       </div>
     </div>
 
@@ -101,42 +59,36 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             <p>Tableau de bord</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="admin_eleve.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
             <p>Élèves</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="interro_admin.php" class="nav-link">
             <i class="nav-icon fas fa-book"></i>
             <p>Interrogations</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="resultats_admin.php" class="nav-link">
             <i class="nav-icon fas fa-chart-bar"></i>
             <p>Résultats</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="question_admin.php" class="nav-link">
             <i class="nav-icon fas fa-question"></i>
             <p>Questions</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="gestion_notifications.php" class="nav-link">
             <i class="nav-icon fas fa-bell"></i>
             <p>Notifications</p>
           </a>
         </li>
-
         <li class="nav-item">
           <a href="gestion_admins.php" class="nav-link">
             <i class="nav-icon fas fa-user-shield"></i>
@@ -149,21 +101,16 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <p>Mon Profil</p>
             </a>
           </li>
-
-
-        <!-- 🔥 Lien historique ajouté ici -->
         <li class="nav-item">
           <a href="historique_activites.php" class="nav-link">
             <i class="nav-icon fas fa-history"></i>
             <p>Historique des activités</p>
           </a>
         </li>
-
       </ul>
     </nav>
   </div>
 </aside>
-
 
   <div class="content-wrapper p-3">
     <div class="content">
@@ -172,7 +119,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
           <div class="col-lg-3 col-6">
             <div class="small-box bg-info">
               <div class="inner">
-                <h3><?= $total_eleves ?></h3>
+                <h3 id="total-eleves">0</h3>
                 <p>Elèves inscrits</p>
               </div>
               <div class="icon">
@@ -181,11 +128,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <a href="admin_eleve.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
           <div class="col-lg-3 col-6">
             <div class="small-box bg-success">
               <div class="inner">
-                <h3><?= $total_interros ?></h3>
+                <h3 id="total-interros">0</h3>
                 <p>Interros actives</p>
               </div>
               <div class="icon">
@@ -194,11 +140,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <a href="interro_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
           <div class="col-lg-3 col-6">
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3><?= $total_notifications ?></h3>
+                <h3 id="total-notifications">0</h3>
                 <p>Notifications</p>
               </div>
               <div class="icon">
@@ -207,11 +152,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
               <a href="gestion_notifications.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
-
           <div class="col-lg-3 col-6">
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3><?= $total_admins ?></h3>
+                <h3 id="total-admins">0</h3>
                 <p>Admins simples</p>
               </div>
               <div class="icon">
@@ -221,7 +165,58 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             </div>
           </div>
         </div>
-
+        
+        <!-- Widgets supplémentaires -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+              <div class="inner">
+                <h3 id="total-resultats">0</h3>
+                <p>Résultats soumis</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3 id="score-moyen">0%</h3>
+                <p>Score moyen global</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-percentage"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3 id="eleves-participants">0</h3>
+                <p>Élèves participants</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3 id="taux-participation">0%</h3>
+                <p>Taux de participation</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-chart-pie"></i>
+              </div>
+              <a href="resultats_admin.php" class="small-box-footer">Voir plus <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+        </div>
         <!-- Graphiques -->
         <div class="row">
           <div class="col-md-6">
@@ -244,9 +239,9 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
         <div class="row mt-4">
           <div class="col-md-6">
             <div class="card">
-              <div class="card-header"><h5>Élèves par catégorie d'activité</h5></div>
+              <div class="card-header"><h5>Matières les plus populaires</h5></div>
               <div class="card-body">
-                <canvas id="catActiviteChart"></canvas>
+                <canvas id="matiereChart"></canvas>
               </div>
             </div>
           </div>
@@ -259,11 +254,65 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             </div>
           </div>
         </div>
-
+        
+        <!-- Tableaux de données -->
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Performance par établissement</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Établissement</th>
+                        <th>Élèves</th>
+                        <th>Résultats</th>
+                        <th>Score moyen</th>
+                        <th>Score max</th>
+                      </tr>
+                    </thead>
+                    <tbody id="performanceTableBody">
+                      <tr>
+                        <td colspan="5" class="text-center">Chargement...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <h5>Activité récente (24h)</h5>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Type d'activité</th>
+                        <th>Nombre</th>
+                        <th>Période</th>
+                      </tr>
+                    </thead>
+                    <tbody id="activiteTableBody">
+                      <tr>
+                        <td colspan="3" class="text-center">Chargement...</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
   <footer class="main-footer">
     <div class="float-right d-none d-sm-inline">Admin Principal</div>
     <strong>&copy; 2025 MC-LEGENDE</strong>. Tous droits réservés.
@@ -273,66 +322,10 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 <script src="adminlte/plugins/jquery/jquery.min.js"></script>
 <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="adminlte/plugins/chart.js/Chart.min.js"></script>
+<script src="assets/js/dashboard-stats.js"></script>
 <script>
-  const sectionCtx = document.getElementById('sectionChart').getContext('2d');
-  const interroCtx = document.getElementById('interroChart').getContext('2d');
-  const catActiviteCtx = document.getElementById('catActiviteChart').getContext('2d');
-  const scoreCtx = document.getElementById('scoreChart').getContext('2d');
-
-  new Chart(sectionCtx, {
-    type: 'doughnut',
-    data: {
-      labels: [<?php foreach ($sections as $s) echo "'{$s['section']}',"; ?>],
-      datasets: [{
-        data: [<?php foreach ($sections as $s) echo "{$s['total']},"; ?>],
-        backgroundColor: ['#007bff', '#28a745', '#ffc107', '#dc3545', '#6610f2']
-      }]
-    }
-  });
-
-  new Chart(interroCtx, {
-    type: 'line',
-    data: {
-      labels: [<?php foreach ($interro_stats as $row) echo "'{$row['jour']}',"; ?>],
-      datasets: [{
-        label: 'Interros créées',
-        data: [<?php foreach ($interro_stats as $row) echo "{$row['total']},"; ?>],
-        borderColor: '#17a2b8',
-        backgroundColor: 'rgba(23,162,184,0.1)',
-        fill: true
-      }]
-    }
-  });
-
-  // Élèves par catégorie_activite
-  new Chart(catActiviteCtx, {
-    type: 'pie',
-    data: {
-      labels: [<?php foreach ($cat_activite as $c) echo "'{$c['categorie_activite']}',"; ?>],
-      datasets: [{
-        data: [<?php foreach ($cat_activite as $c) echo "{$c['total']},"; ?>],
-        backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796']
-      }]
-    }
-  });
-
-  // Distribution des scores
-  new Chart(scoreCtx, {
-    type: 'bar',
-    data: {
-      labels: [<?php foreach ($score_stats as $s) echo "'{$s['score']}',"; ?>],
-      datasets: [{
-        label: 'Nombre d\'élèves',
-        data: [<?php foreach ($score_stats as $s) echo "{$s['total']},"; ?>],
-        backgroundColor: '#36b9cc'
-      }]
-    },
-    options: {
-      scales: {
-        y: { beginAtZero: true }
-      }
-    }
-  });
+// Le dashboard est maintenant géré par la classe DashboardStats
+// Chargement automatique des statistiques au chargement de la page
 </script>
 </body>
 </html>

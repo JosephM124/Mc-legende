@@ -145,17 +145,164 @@ class ValidationMiddleware
     }
 
     /**
+     * Valider les données d'une interrogation
+     */
+    public function validateInterrogation($data)
+    {
+        $errors = [];
+
+        // Validation du titre
+        if (empty($data['titre'])) {
+            $errors['titre'] = 'Le titre est requis';
+        } elseif (strlen($data['titre']) < 5) {
+            $errors['titre'] = 'Le titre doit contenir au moins 5 caractères';
+        }
+
+        // Validation de la description
+        if (isset($data['description']) && !empty($data['description'])) {
+            if (strlen($data['description']) < 10) {
+                $errors['description'] = 'La description doit contenir au moins 10 caractères';
+            }
+        }
+
+        // Validation de la matière
+        if (empty($data['matiere'])) {
+            $errors['matiere'] = 'La matière est requise';
+        } elseif (strlen($data['matiere']) < 2) {
+            $errors['matiere'] = 'La matière doit contenir au moins 2 caractères';
+        }
+
+        // Validation du niveau
+        if (isset($data['niveau']) && !empty($data['niveau'])) {
+            $allowedNiveaux = ['debutant', 'intermediaire', 'avance'];
+            if (!in_array(strtolower($data['niveau']), $allowedNiveaux)) {
+                $errors['niveau'] = 'Niveau invalide (debutant, intermediaire, avance)';
+            }
+        }
+
+        // Validation de la durée
+        if (isset($data['duree']) && !empty($data['duree'])) {
+            if (!is_numeric($data['duree']) || $data['duree'] < 1 || $data['duree'] > 180) {
+                $errors['duree'] = 'La durée doit être un nombre entre 1 et 180 minutes';
+            }
+        }
+
+        // Validation du statut
+        if (isset($data['statut']) && !empty($data['statut'])) {
+            $allowedStatuts = ['brouillon', 'active', 'terminee', 'archivee'];
+            if (!in_array($data['statut'], $allowedStatuts)) {
+                $errors['statut'] = 'Statut invalide';
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Valider les données d'une question
+     */
+    public function validateQuestion($data)
+    {
+        $errors = [];
+
+        // Validation de l'ID d'interrogation
+        if (empty($data['interrogation_id'])) {
+            $errors['interrogation_id'] = 'L\'ID d\'interrogation est requis';
+        } elseif (!is_numeric($data['interrogation_id'])) {
+            $errors['interrogation_id'] = 'L\'ID d\'interrogation doit être un nombre';
+        }
+
+        // Validation de la question
+        if (empty($data['question'])) {
+            $errors['question'] = 'La question est requise';
+        } elseif (strlen($data['question']) < 5) {
+            $errors['question'] = 'La question doit contenir au moins 5 caractères';
+        }
+
+        // Validation du type
+        if (empty($data['type'])) {
+            $errors['type'] = 'Le type est requis';
+        } else {
+            $allowedTypes = ['choix_unique', 'choix_multiple', 'vrai_faux', 'texte_libre'];
+            if (!in_array($data['type'], $allowedTypes)) {
+                $errors['type'] = 'Type invalide';
+            }
+        }
+
+        // Validation des points
+        if (isset($data['points']) && !empty($data['points'])) {
+            if (!is_numeric($data['points']) || $data['points'] < 0) {
+                $errors['points'] = 'Les points doivent être un nombre positif';
+            }
+        }
+
+        // Validation des options pour les questions à choix
+        if (in_array($data['type'], ['choix_unique', 'choix_multiple'])) {
+            if (empty($data['options']) || !is_array($data['options'])) {
+                $errors['options'] = 'Les options sont requises pour ce type de question';
+            } elseif (count($data['options']) < 2) {
+                $errors['options'] = 'Au moins 2 options sont requises';
+            }
+        }
+
+        // Validation du temps estimé
+        if (isset($data['temps_estime']) && !empty($data['temps_estime'])) {
+            if (!is_numeric($data['temps_estime']) || $data['temps_estime'] < 10 || $data['temps_estime'] > 600) {
+                $errors['temps_estime'] = 'Le temps estimé doit être entre 10 et 600 secondes';
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Valider les données d'un résultat
+     */
+    public function validateResultat($data)
+    {
+        $errors = [];
+
+        // Validation de l'ID d'élève
+        if (empty($data['eleve_id'])) {
+            $errors['eleve_id'] = 'L\'ID d\'élève est requis';
+        } elseif (!is_numeric($data['eleve_id'])) {
+            $errors['eleve_id'] = 'L\'ID d\'élève doit être un nombre';
+        }
+
+        // Validation de l'ID d'interrogation
+        if (empty($data['interrogation_id'])) {
+            $errors['interrogation_id'] = 'L\'ID d\'interrogation est requis';
+        } elseif (!is_numeric($data['interrogation_id'])) {
+            $errors['interrogation_id'] = 'L\'ID d\'interrogation doit être un nombre';
+        }
+
+        // Validation du score
+        if (isset($data['score']) && !empty($data['score'])) {
+            if (!is_numeric($data['score']) || $data['score'] < 0 || $data['score'] > 100) {
+                $errors['score'] = 'Le score doit être un nombre entre 0 et 100';
+            }
+        }
+
+        // Validation du temps utilisé
+        if (isset($data['temps_utilise']) && !empty($data['temps_utilise'])) {
+            if (!is_numeric($data['temps_utilise']) || $data['temps_utilise'] < 0) {
+                $errors['temps_utilise'] = 'Le temps utilisé doit être un nombre positif';
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
      * Valider les données de connexion
      */
     public function validateLogin($data)
     {
         $errors = [];
 
-        // Validation de l'email
-        if (empty($data['email'])) {
-            $errors['email'] = 'L\'email est requis';
-        } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Format d\'email invalide';
+        // Validation de l'identifiant (email ou téléphone)
+        if (empty($data['identifiant'])) {
+            $errors['identifiant'] = 'L\'identifiant est requis';
         }
 
         // Validation du mot de passe
@@ -244,6 +391,64 @@ class ValidationMiddleware
     }
 
     /**
+     * Valider les données d'upload de fichier
+     */
+    public function validateFileUpload($file, $allowedTypes = [], $maxSize = 5242880)
+    {
+        $errors = [];
+
+        // Vérifier si le fichier a été uploadé
+        if (!isset($file) || $file['error'] !== UPLOAD_ERR_OK) {
+            $errors['file'] = 'Erreur lors de l\'upload du fichier';
+            return $errors;
+        }
+
+        // Vérifier la taille
+        if ($file['size'] > $maxSize) {
+            $errors['file'] = 'Le fichier est trop volumineux (max ' . ($maxSize / 1024 / 1024) . 'MB)';
+        }
+
+        // Vérifier le type
+        if (!empty($allowedTypes) && !in_array($file['type'], $allowedTypes)) {
+            $errors['file'] = 'Type de fichier non autorisé';
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Valider les données de notification
+     */
+    public function validateNotification($data)
+    {
+        $errors = [];
+
+        // Validation du titre
+        if (empty($data['titre'])) {
+            $errors['titre'] = 'Le titre est requis';
+        } elseif (strlen($data['titre']) < 3) {
+            $errors['titre'] = 'Le titre doit contenir au moins 3 caractères';
+        }
+
+        // Validation du message
+        if (empty($data['message'])) {
+            $errors['message'] = 'Le message est requis';
+        } elseif (strlen($data['message']) < 5) {
+            $errors['message'] = 'Le message doit contenir au moins 5 caractères';
+        }
+
+        // Validation du type
+        if (isset($data['type']) && !empty($data['type'])) {
+            $allowedTypes = ['info', 'success', 'warning', 'error'];
+            if (!in_array($data['type'], $allowedTypes)) {
+                $errors['type'] = 'Type invalide';
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
      * Envoyer une réponse d'erreur de validation
      */
     public function sendValidationError($errors)
@@ -252,7 +457,8 @@ class ValidationMiddleware
         header('Content-Type: application/json');
         echo json_encode([
             'error' => 'Erreurs de validation',
-            'errors' => $errors
+            'errors' => $errors,
+            'code' => 422
         ]);
         exit;
     }

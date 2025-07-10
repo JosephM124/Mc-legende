@@ -547,10 +547,10 @@
           Conçue pour les établissements exigeants, les enseignants innovants et les investisseurs visionnaires.
         </p>
         <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-          <a href="connexion.php" class="btn btn-light btn-custom">
+          <a href="/connexion" class="btn btn-light btn-custom">
             <i class="fas fa-sign-in-alt me-2"></i>Se connecter
           </a>
-          <a href="inscription.php" class="btn btn-outline-light btn-custom">
+          <a href="/inscription" class="btn btn-outline-light btn-custom">
             <i class="fas fa-user-plus me-2"></i>S'inscrire
           </a>
         </div>

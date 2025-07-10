@@ -7,17 +7,8 @@ class CorsMiddleware
      */
     public function handle()
     {
-        // Autoriser les requêtes depuis n'importe quelle origine (à modifier selon vos besoins)
-        header('Access-Control-Allow-Origin: *');
-        
-        // Autoriser les méthodes HTTP
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-        
-        // Autoriser les headers
-        header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
-        
-        // Autoriser les credentials
-        header('Access-Control-Allow-Credentials: true');
+        // Configuration par défaut plus sécurisée
+        $this->configureForDevelopment();
         
         // Gérer les requêtes preflight OPTIONS
         if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -97,6 +88,13 @@ class CorsMiddleware
         if (isset($config['maxAge'])) {
             header("Access-Control-Max-Age: {$config['maxAge']}");
         }
+
+        // Headers de sécurité supplémentaires
+        if (isset($config['security']) && $config['security']) {
+            header('X-Content-Type-Options: nosniff');
+            header('X-Frame-Options: DENY');
+            header('X-XSS-Protection: 1; mode=block');
+        }
     }
 
     /**
@@ -109,7 +107,8 @@ class CorsMiddleware
             'methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             'headers' => ['Content-Type', 'Authorization', 'X-Requested-With'],
             'credentials' => true,
-            'maxAge' => 86400 // 24 heures
+            'maxAge' => 86400, // 24 heures
+            'security' => true
         ]);
     }
 
@@ -119,10 +118,11 @@ class CorsMiddleware
     public function configureForDevelopment()
     {
         $this->configure([
-            'origin' => '*',
+            'origin' => ['http://localhost:3000', 'http://localhost:8080', 'http://127.0.0.1:3000', 'http://127.0.0.1:8080'],
             'methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
             'headers' => ['Content-Type', 'Authorization', 'X-Requested-With'],
-            'credentials' => false
+            'credentials' => true,
+            'security' => true
         ]);
     }
 
@@ -136,8 +136,70 @@ class CorsMiddleware
             'methods' => ['GET', 'POST', 'PUT', 'DELETE'],
             'headers' => ['Content-Type', 'Authorization'],
             'credentials' => true,
-            'maxAge' => 86400
+            'maxAge' => 86400,
+            'security' => true
         ]);
+    }
+
+    /**
+     * Configuration CORS restrictive (recommandée pour la production)
+     */
+    public function configureRestrictive()
+    {
+        $this->configure([
+            'origin' => ['https://votre-domaine.com'],
+            'methods' => ['GET', 'POST', 'PUT', 'DELETE'],
+            'headers' => ['Content-Type', 'Authorization'],
+            'credentials' => true,
+            'maxAge' => 3600, // 1 heure
+            'security' => true
+        ]);
+    }
+
+    /**
+     * Configuration CORS pour les applications mobiles
+     */
+    public function configureForMobile()
+    {
+        $this->configure([
+            'origin' => ['capacitor://localhost', 'ionic://localhost', 'http://localhost'],
+            'methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            'headers' => ['Content-Type', 'Authorization', 'X-Requested-With'],
+            'credentials' => true,
+            'security' => true
+        ]);
+    }
+
+    /**
+     * Vérifier si l'origine est autorisée
+     */
+    public function isOriginAllowed($origin, $allowedOrigins)
+    {
+        return in_array($origin, $allowedOrigins);
+    }
+
+    /**
+     * Obtenir l'origine de la requête
+     */
+    public function getRequestOrigin()
+    {
+        return $_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_REFERER'] ?? '';
+    }
+
+    /**
+     * Middleware pour bloquer les requêtes non autorisées
+     */
+    public function blockUnauthorizedRequests()
+    {
+        $requestOrigin = $this->getRequestOrigin();
+        $allowedOrigins = ['http://localhost:3000', 'http://localhost:8080', 'https://votre-domaine.com'];
+        
+        if (!empty($requestOrigin) && !$this->isOriginAllowed($requestOrigin, $allowedOrigins)) {
+            http_response_code(403);
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Origine non autorisée']);
+            exit;
+        }
     }
 }
 ?> 
