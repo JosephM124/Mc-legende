@@ -29,6 +29,9 @@
       public function admin_home(){
          $this->view('admin_principal');
       }
+      public function admin_profil(){
+         
+      }
 
       public function eleve_home(){
          $this->view('eleve');

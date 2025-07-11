@@ -70,23 +70,6 @@
     (new \Controllers\UtilisateursController())->getByEmail($email);
 });
 
-// API Routes - Élèves
-\Router\Router::get('/api/eleves', function(){
-    (new \Controllers\EleveController())->index();
-});
-
-\Router\Router::get('/api/eleves/[i:id]', function($id){
-    (new \Controllers\EleveController())->show($id);
-});
-
-\Router\Router::get('/api/eleves/etablissement/[a:etablissement]', function($etablissement){
-    (new \Controllers\EleveController())->getByEtablissement($etablissement);
-});
-
-\Router\Router::get('/api/eleves/section/[a:section]', function($section){
-    (new \Controllers\EleveController())->getBySection($section);
-});
-
 \Router\Router::get('/api/eleves/utilisateur/[i:utilisateur_id]', function($utilisateur_id){
     (new \Controllers\EleveController())->getByUtilisateurId($utilisateur_id);
 });
@@ -110,7 +93,7 @@
 });
 
 \Router\Router::get('/api/interrogations/[i:id]', function($id){
-    (new \Controllers\InterrogationController())->show($id);
+    (new \Controllers\InterrogationController())->show($id['id']);
 });
 
 \Router\Router::get('/api/interrogations/eleve/[i:eleve_id]', function($eleve_id){
