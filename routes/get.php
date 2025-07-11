@@ -27,6 +27,10 @@
      (new \Controllers\UtilisateursController())->logout();
   });
 
+\Router\Router::get('/unitaire/[i:id]',function(){
+   var_dump(  (new \Models\Activity(\App\App::getConfigInstance()))->seeAllActivity());
+});
+
 // Routes Élève
 \Router\Router::get('/eleve/home', function(){
     (new \Controllers\PageController())->eleve_home();
@@ -59,7 +63,7 @@
 });
 
 \Router\Router::get('/api/utilisateurs/[i:id]', function($id){
-    (new \Controllers\UtilisateursController())->show($id);
+     (new \Controllers\UtilisateursController())->show($id);
 });
 
 \Router\Router::get('/api/utilisateurs/role/[a:role]', function($role){

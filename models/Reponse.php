@@ -1,7 +1,7 @@
 <?php
 namespace Models;
 
-class Reponse extends Database
+class Reponse extends \Models\Database
 {
     private $id;
     private $question_id;

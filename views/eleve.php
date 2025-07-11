@@ -4,9 +4,8 @@ require_once 'databaseconnect.php';
 require_once 'fonctions.php';
 
 
-
 if (!isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']['role'] !== 'eleve') {
-    header("Location: connexion.php");
+    header("Location: /connexion");
     exit();
 }
 

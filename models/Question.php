@@ -110,13 +110,13 @@ class Question extends Database
     /**
      * Supprimer une question
      */
-    public function delete($id)
-    {
-        return $this->prepare(
-            "DELETE FROM questions WHERE id = ?",
-            [$id]
-        ) > 0;
-    }
+    // public function delete($id)
+    // {
+    //     return $this->prepare(
+    //         "DELETE FROM questions WHERE id = ?",
+    //         [$id]
+    //     ) > 0;
+    // }
 
     /**
      * Récupérer les questions par interrogation

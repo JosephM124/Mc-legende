@@ -1,7 +1,7 @@
 <?php
 namespace Models;
 
-class Utilisateurs extends Database
+class Utilisateurs extends \Models\Database
 {
     private $id;
     private $nom;

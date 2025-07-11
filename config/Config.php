@@ -17,9 +17,11 @@ class Config{
     public function gethost(){
         return $this->hostname;
     }
+
     public function getdb(){
         return $this->dbname;
     }
+
     public function getuser(){
         return $this->username;
     }

@@ -2,7 +2,7 @@
 
 namespace Models;
 
-class Resultat extends Database
+class Resultats extends Database
 {
     private $id;
     private $eleve_id;

@@ -1,7 +1,7 @@
 <?php
 namespace Models;
 
-class Interrogation extends Database
+class Interrogation extends \Models\Database
 {
     private $id;
     private $titre;
