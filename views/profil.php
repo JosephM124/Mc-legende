@@ -147,8 +147,11 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 <head>
   <meta charset="UTF-8">
   <title>Mon Profil - MC-LEGENDE</title>
-  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -190,7 +193,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
           <?php endforeach; ?>
         <?php endif; ?>
 
-        <a href="notifications.php" class="dropdown-item dropdown-footer text-primary">
+        <a href="notifications" class="dropdown-item dropdown-footer text-primary">
           Voir toutes les notifications
         </a>
       </div>
@@ -198,7 +201,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 
     <!-- Déconnexion -->
     <li class="nav-item">
-      <a class="nav-link" href="logout.php"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      <a class="nav-link" href="logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
     </li>
   </ul>
 </nav>
@@ -221,25 +224,25 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
           <li class="nav-item">
-            <a href="eleve.php" class="nav-link ">
+            <a href="home" class="nav-link ">
               <i class="nav-icon fas fa-home"></i>
               <p>Accueil</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="mes_interro.php" class="nav-link">
+            <a href="interro" class="nav-link">
               <i class="nav-icon fas fa-book-open"></i>
               <p>Mes Interros</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="resultats.php" class="nav-link ">
+            <a href="resultats" class="nav-link ">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>Mes Résultats</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="profil.php" class="nav-link active">
+            <a href="profil" class="nav-link active">
               <i class="nav-icon fas fa-user"></i>
               <p>Mon Profil</p>
             </a>
@@ -383,9 +386,14 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   </footer>
 </div>
 
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
-<script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="adminlte/dist/js/adminlte.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
+<!-- FullCalendar -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 <script>
   document.getElementById('photoInput').addEventListener('change', function(event) {
     const [file] = event.target.files;

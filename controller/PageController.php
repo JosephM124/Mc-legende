@@ -5,17 +5,17 @@
 
       public function index()
       {
-           $this->view('home');
+           $this->view('home', 'default');
       }
 
       public function connexion()
       {
-           $this->view('connexion');
+           $this->view('connexion', 'auth');
       }
       
       public function inscription()
       {
-           $this->view('inscription');
+           $this->view('inscription', 'auth');
       }
       
       public function login(){
@@ -27,31 +27,35 @@
       }
 
       public function admin_home(){
-         $this->view('admin_principal');
+         $this->view('admin_principal', 'admin');
       }
       public function admin_profil(){
          
       }
 
       public function eleve_home(){
-         $this->view('eleve');
+         $this->view('eleve', 'eleve');
       }
 
       public function eleve_interro(){
-         $this->view('mes_interro');
+         $this->view('mes_interro', 'eleve');
       }
 
       public function eleve_profil(){
-         $this->view('profil');
+         $this->view('profil', 'eleve');
       }
 
       public function eleve_resultat(){
-         $this->view('resultats');
+         $this->view('resultats', 'eleve');
       }
       private function provider($provide = []){}
 
-      private function view($view)
+      private function view($view, $pageType = 'default')
       {
+         // Initialiser le helper d'assets avec le type de page
+         if (class_exists('\Helpers\AssetsHelper')) {
+            \Helpers\AssetsHelper::init();
+         }
          require  dirname(__DIR__) . DIRECTORY_SEPARATOR .'views' . DIRECTORY_SEPARATOR . $view . '.php';
       }
 

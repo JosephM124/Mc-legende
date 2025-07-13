@@ -3,11 +3,8 @@ session_start();
 require_once 'databaseconnect.php';
 require_once 'fonctions.php';
 
-// Initialiser le helper d'assets si disponible
-if (class_exists('\Helpers\AssetsHelper')) {
-    \Helpers\AssetsHelper::init();
-}
-
+// Initialiser le helper d'assets
+\Helpers\AssetsHelper::init();
 
 if (!isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']['role'] !== 'eleve') {
     header("Location: /connexion");
@@ -18,6 +15,8 @@ $id = $_SESSION['utilisateur']['id'];
 $req = $pdo->prepare("SELECT nom, prenom, photo, role FROM utilisateurs WHERE id = ?");
 $req->execute([$id]);
 $utilisateur = $req->fetch();
+
+// Mise à jour des statuts des quiz
 try {
     $pdo->exec("UPDATE quiz SET statut = 'prévu' WHERE date_lancement > NOW()");
 } catch (PDOException $e) {
@@ -78,20 +77,11 @@ if ($interro_active) {
             'Nouvelle interrogation disponible',
             "L'interrogation '{$quiz_actif['titre']}' est prête à être commencée.",
             "mes_interro.php?id={$quiz_actif['id']}",
-            $quiz_actif['id']        );
+            $quiz_actif['id']
+        );
     }
 }
-// Récupérer la catégorie d'activité de l'élève
-$stmt = $pdo->prepare("
-    SELECT e.categorie_activite 
-    FROM eleves e 
-    INNER JOIN utilisateurs u ON e.utilisateur_id = u.id 
-    WHERE u.id = ?
-");
-$stmt->execute([$id]);
-$categorie = $stmt->fetchColumn();
 
-// Récupérer les notifications destinées à cet élève
 // Récupérer les notifications destinées à cet élève
 $stmt = $pdo->prepare("
     SELECT * FROM notifications 
@@ -127,30 +117,13 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tableau de bord - MC-LEGENDE</title>
-  <?php if (class_exists('\Helpers\AssetsHelper')): ?>
-    <?= \Helpers\AssetsHelper::metaTags('Tableau de bord - MC-LEGENDE', 'Espace personnel de l\'élève') ?>
-    <?= \Helpers\AssetsHelper::favicon() ?>
-    <?= \Helpers\AssetsHelper::socialMeta('Tableau de bord - MC-LEGENDE', 'Espace personnel de l\'élève', 'logo.png') ?>
-    
-    <!-- CSS Assets -->
-    <?= \Helpers\AssetsHelper::css('eleve') ?>
-  <?php endif; ?>
+  <?= \Helpers\AssetsHelper::metaTags('Tableau de bord - MC-LEGENDE', 'Espace personnel de l\'élève') ?>
+  <?= \Helpers\AssetsHelper::favicon() ?>
+  <?= \Helpers\AssetsHelper::socialMeta('Tableau de bord - MC-LEGENDE', 'Espace personnel de l\'élève', 'logo.png') ?>
   
-  <!-- AdminLTE CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Animate.css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <!-- FullCalendar -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css">
-  <!-- SweetAlert2 -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- CSS Assets -->
+  <?= \Helpers\AssetsHelper::css('eleve') ?>
+  
   <style>
     .notif-icon {
       position: relative;
@@ -166,7 +139,6 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
     window.history.replaceState(null, null, window.location.pathname);
   }
 </script>
-
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -215,7 +187,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
 
     <!-- Déconnexion -->
     <li class="nav-item">
-      <a class="nav-link" href="../logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+      <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
     </li>
   </ul>
 </nav>
@@ -223,13 +195,13 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   <!-- Sidebar -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="#" class="brand-link text-center d-flex align-items-center justify-content-center">
-      <img src="../images/back.jpeg" alt="Logo" width="36" class="me-2 rounded-circle shadow-sm">
+      <?= \Helpers\AssetsHelper::img('back.jpeg', 'Logo', ['width' => '36', 'class' => 'me-2 rounded-circle shadow-sm']) ?>
       <span class="brand-text font-weight-light">MC-LEGENDE</span>
     </a>
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?= $photo_profil ?>" class="img-circle elevation-2" alt="User Image">
+          <img src="<?= \Helpers\AssetsHelper::file($photo_profil) ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Bienvenue, <?= htmlspecialchars($utilisateur['prenom']) ?></a>
@@ -244,19 +216,19 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             </a>
           </li>
           <li class="nav-item">
-            <a href="interro" class="nav-link">
+            <a href="eleve/interro" class="nav-link">
               <i class="nav-icon fas fa-book-open"></i>
               <p>Mes Interros</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="resultats" class="nav-link ">
+            <a href="eleve/resultats" class="nav-link ">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>Mes Résultats</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="profil" class="nav-link">
+            <a href="eleve/profil" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Mon Profil</p>
             </a>
@@ -272,7 +244,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
         <h4 class="mb-0">👋 Bonjour <?= htmlspecialchars($utilisateur['prenom']) ?> ! Bienvenue dans votre espace personnel.</h4>
       </div>
 
-            <div class="row">
+      <div class="row">
         <!-- Catégorie : visible en haut sur mobile, à droite sur desktop -->
         <div class="col-12 col-md-4 order-1 order-md-2 mb-3 mb-md-0">
           <div class="d-flex justify-content-end mb-2">
@@ -296,10 +268,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
                     <i class="fas fa-play"></i> Commencer maintenant
                   </a>
                 </div>
-                <script>
-                  const sound = new Audio('../assets/audio/notify.mp3');
-                  sound.play();
-                </script>
+                <?= \Helpers\AssetsHelper::audio('notify.mp3', ['autoplay' => '']) ?>
               <?php else: ?>
                 <div class="alert alert-secondary">
                   <i class="fas fa-info-circle"></i> Aucune interrogation active pour le moment.
@@ -332,8 +301,6 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
           </div>
         </div>
       </div>
-          
-      </div>
     </div>
   </div>
 
@@ -345,20 +312,9 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   </footer>
 </div>
 
+<!-- JS Assets -->
+<?= \Helpers\AssetsHelper::js('eleve') ?>
 
-
-<?php if (class_exists('\Helpers\AssetsHelper')): ?>
-  <?= \Helpers\AssetsHelper::js('eleve') ?>
-<?php endif; ?>
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
-<!-- FullCalendar -->
-<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const calendarEl = document.getElementById('calendar');
@@ -389,4 +345,4 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   });
 </script>
 </body>
-</html>
+</html> 

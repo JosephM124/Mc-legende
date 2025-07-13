@@ -78,10 +78,11 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'img/pro
 <head>
   <meta charset="UTF-8">
   <title>Mes Résultats - MC-LEGENDE</title>
-  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
-  <link href="/assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="/assets/dist/css/adminlte.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -160,13 +161,13 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'img/pro
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
           <li class="nav-item">
-            <a href="/eleve/home" class="nav-link">
+            <a href="home" class="nav-link">
               <i class="nav-icon fas fa-home"></i>
               <p>Accueil</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="/eleve/interro" class="nav-link ">
+            <a href="interro" class="nav-link ">
               <i class="nav-icon fas fa-book-open"></i>
               <p>Mes Interros</p>
             </a>
@@ -178,7 +179,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'img/pro
             </a>
           </li>
           <li class="nav-item">
-            <a href="/eleve/profil" class="nav-link">
+            <a href="profil" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>Mon Profil</p>
             </a>
@@ -245,11 +246,12 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'img/pro
   </footer>
 </div>
 
-<script src="adminlte/plugins/jquery/jquery.min.js"></script>
-<script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="adminlte/dist/js/adminlte.min.js"></script>
-<script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="assets/dist/js/adminlte.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>

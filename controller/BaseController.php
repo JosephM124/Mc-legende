@@ -81,7 +81,7 @@ abstract class BaseController
     protected function redirect_to($role){
         switch($role){
             case 'eleve':
-                header('Location: /eleve/home');
+                header('Location: eleve/home');
                 break;
             case 'admin_simple':
                 $admin = (new AdminController())->enregistrer_activite_admin($_SESSION['utilisateur']['id'], "Connexion d'un admin", "Nom : " . $_SESSION['utilisateur']['nom'] . " | Email : " . $_SESSION['utilisateur']['email']);

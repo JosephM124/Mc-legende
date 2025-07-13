@@ -516,17 +516,17 @@
     <div class="collapse navbar-collapse" id="navbarMenu">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="/">
+          <a class="nav-link active" href="./">
             <i class="fas fa-home me-1"></i>Accueil
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/connexion">
+          <a class="nav-link" href="connexion">
             <i class="fas fa-sign-in-alt me-1"></i>Connexion
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/inscription">
+          <a class="nav-link" href="inscription">
             <i class="fas fa-user-plus me-1"></i>Inscription
           </a>
         </li>
@@ -547,10 +547,10 @@
           Conçue pour les établissements exigeants, les enseignants innovants et les investisseurs visionnaires.
         </p>
         <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
-          <a href="/connexion" class="btn btn-light btn-custom">
+          <a href="connexion" class="btn btn-light btn-custom">
             <i class="fas fa-sign-in-alt me-2"></i>Se connecter
           </a>
-          <a href="/inscription" class="btn btn-outline-light btn-custom">
+          <a href="inscription" class="btn btn-outline-light btn-custom">
             <i class="fas fa-user-plus me-2"></i>S'inscrire
           </a>
         </div>
