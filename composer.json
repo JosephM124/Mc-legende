@@ -9,7 +9,12 @@
             "Router\\": "router/",
             "Config\\": "config/",
             "Message\\": "message/",
+<<<<<<< HEAD
             "Middleware\\": "middleware/"
+=======
+            "Middlewares\\": "middleware/",
+            "Helpers\\": "helpers/"
+>>>>>>> ef8f40ab1b05c6a41e5db7851dffca72fd56e819
         }
     },
     "require": {

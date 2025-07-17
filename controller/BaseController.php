@@ -86,7 +86,7 @@ abstract class BaseController
         
         switch($role){
             case 'eleve':
-                header('Location: /eleve/home');
+                header('Location: eleve/home');
                 break;
             case 'admin_simple':
                 header('Location: views/admin_principal.php');

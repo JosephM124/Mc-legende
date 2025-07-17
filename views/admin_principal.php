@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Tableau de bord Admin Principal - MC-LEGENDE</title>
-  <link href="/assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="/assets/dist/css/adminlte.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="/adminlte/plugins/fontawesome-free/css/all.min.css">
-  <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
+  <link href="/../assets/plugins/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="/../assets/dist/css/adminlte.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../adminlte/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../adminlte/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

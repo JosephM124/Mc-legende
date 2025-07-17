@@ -289,9 +289,9 @@ $csrf_token = $_SESSION['csrf_token_inscription'];
       </button>
       <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="/"><i class="fas fa-home me-1"></i>Accueil</a></li>
-          <li class="nav-item"><a class="nav-link" href="/connexion"><i class="fas fa-sign-in-alt me-1"></i>Connexion</a></li>
-          <li class="nav-item"><a class="nav-link active" href="/inscription"><i class="fas fa-user-plus me-1"></i>Inscription</a></li>
+          <li class="nav-item"><a class="nav-link" href="./"><i class="fas fa-home me-1"></i>Accueil</a></li>
+          <li class="nav-item"><a class="nav-link" href="connexion"><i class="fas fa-sign-in-alt me-1"></i>Connexion</a></li>
+          <li class="nav-item"><a class="nav-link active" href="inscription"><i class="fas fa-user-plus me-1"></i>Inscription</a></li>
         </ul>
       </div>
     </div>
@@ -335,7 +335,7 @@ $csrf_token = $_SESSION['csrf_token_inscription'];
             </div>
             
             <div class="register-body">
-              <form action="/register" method="POST" id="registerForm" autocomplete="off">
+              <form action="register" method="POST" id="registerForm" autocomplete="off">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES, 'UTF-8') ?>">
                 
                 <!-- Section Informations Personnelles -->
