@@ -1,123 +1,19 @@
 <?php
-session_start();
-require_once 'databaseconnect.php';
-require_once 'fonctions.php';
+// Sécurise toutes les variables attendues par la vue
+$utilisateur = $utilisateur ?? null;
+$quizActif = $quizActif ?? null;
+$notifications = $notifications ?? [];
+$interrosAVenir = $interrosAVenir ?? [];
+$categorie = $categorie ?? '';
+$interro_active = $interro_active ?? false;
 
-
-if (!isset($_SESSION['utilisateur']) && $_SESSION['utilisateur']['role'] !== 'eleve') {
-    header("Location: /connexion");
-    exit();
-}
-
-$id = $_SESSION['utilisateur']['id'];
-$req = $pdo->prepare("SELECT nom, prenom, photo, role FROM utilisateurs WHERE id = ?");
-$req->execute([$id]);
-$utilisateur = $req->fetch();
-try {
-    $pdo->exec("UPDATE quiz SET statut = 'prévu' WHERE date_lancement > NOW()");
-} catch (PDOException $e) {
-    echo "Erreur 1 : " . $e->getMessage();
-}
-
-try {
-    $pdo->prepare("
-        UPDATE quiz 
-        SET statut = 'actif'
-        WHERE statut != 'actif' 
-          AND NOW() >= date_lancement 
-          AND NOW() < DATE_ADD(date_lancement, INTERVAL duree_totale MINUTE)
-    ")->execute();
-} catch (PDOException $e) {
-    echo "Erreur 2 : " . $e->getMessage();
-}
-
-try {
-    $pdo->prepare("
-        UPDATE quiz 
-        SET statut = 'inactif'
-        WHERE statut != 'inactif' 
-          AND NOW() >= DATE_ADD(date_lancement, INTERVAL duree_totale MINUTE)
-    ")->execute();
-} catch (PDOException $e) {
-    echo "Erreur 3 : " . $e->getMessage();
-}
-
-// Récupérer la catégorie d'activité de l'élève
-$stmt = $pdo->prepare("
-    SELECT e.categorie_activite 
-    FROM eleves e 
-    INNER JOIN utilisateurs u ON e.utilisateur_id = u.id 
-    WHERE u.id = ?
-");
-$stmt->execute([$id]);
-$categorie = $stmt->fetchColumn();
-
-$req = $pdo->prepare("SELECT id, titre FROM quiz 
-                      WHERE statut = 'actif' AND categorie = ? 
-                      LIMIT 1");
-$req->execute([$categorie]);
-$quiz_actif = $req->fetch();
-$interro_active = $quiz_actif !== false;
-
-if ($interro_active) {
-    $derniere_notif = $pdo->prepare("SELECT 1 FROM notifications 
-                                   WHERE utilisateur_id = ? AND quiz_id = ? AND type = 'quiz' 
-                                   ORDER BY date_creation DESC LIMIT 1");
-    $derniere_notif->execute([$id, $quiz_actif['id']]);
-
-    if ($derniere_notif->fetch() === false) {
-        addNotification(
-            $pdo,
-            $id,
-            'quiz',
-            'Nouvelle interrogation disponible',
-            "L'interrogation '{$quiz_actif['titre']}' est prête à être commencée.",
-            "mes_interro.php?id={$quiz_actif['id']}",
-            $quiz_actif['id']        );
-    }
-}
-// Récupérer la catégorie d'activité de l'élève
-$stmt = $pdo->prepare("
-    SELECT e.categorie_activite 
-    FROM eleves e 
-    INNER JOIN utilisateurs u ON e.utilisateur_id = u.id 
-    WHERE u.id = ?
-");
-$stmt->execute([$id]);
-$categorie = $stmt->fetchColumn();
-
-// Récupérer les notifications destinées à cet élève
-// Récupérer les notifications destinées à cet élève
-$stmt = $pdo->prepare("
-    SELECT * FROM notifications 
-    WHERE (
-        (est_generale = 1 AND role_destinataire = 'eleve' AND (
-            (categorie IS NULL) OR (categorie = :cat)
-        ))
-        AND (utilisateur_id = :id)
-    )
-    ORDER BY date_creation DESC LIMIT 5
-");
-$stmt->execute([
-    'cat' => $categorie,
-    'id' => $id
-]);
-$notifications = $stmt->fetchAll();
-
-// Nombre de notifications non lues
+$photo_profil = ($utilisateur && !empty($utilisateur['photo'])) ? $utilisateur['photo'] : 'uploads/avatars/-default.jpg';
 $nb_notifications = 0;
 foreach ($notifications as $notif) {
     if (!$notif['lue']) {
         $nb_notifications++;
     }
 }
-
-// Récupérer les interrogations à venir pour la catégorie de l'élève
-$stmt = $pdo->prepare("SELECT id, titre, date_lancement, duree_totale FROM quiz WHERE categorie = ? AND date_lancement > NOW() ORDER BY date_lancement ASC");
-$stmt->execute([$categorie]);
-$interros_a_venir = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-$photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads/avatars/-default.jpg';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -213,7 +109,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
           <img src="<?= $photo_profil ?>" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Bienvenue, <?= htmlspecialchars($utilisateur['prenom']) ?></a>
+          <a href="#" class="d-block">Bienvenue, <?= $utilisateur ? htmlspecialchars($utilisateur['nom']) : '' ?></a>
         </div>
       </div>
       <nav class="mt-2">
@@ -250,7 +146,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
   <div class="content-wrapper p-3">
     <div class="container-fluid">
       <div class="alert alert-info text-center animate__animated animate__fadeInDown">
-        <h4 class="mb-0">👋 Bonjour <?= htmlspecialchars($utilisateur['prenom']) ?> ! Bienvenue dans votre espace personnel.</h4>
+        <h4 class="mb-0">👋 Bonjour <?= $utilisateur ? htmlspecialchars($utilisateur['prenom']) : '' ?> ! Bienvenue dans votre espace personnel.</h4>
       </div>
 
             <div class="row">
@@ -271,9 +167,9 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
             <div class="card-body">
               <?php if ($interro_active): ?>
                 <div class="alert alert-success">
-                  <h5><?= htmlspecialchars($quiz_actif['titre']) ?></h5>
+                  <h5><?= htmlspecialchars($quizActif['titre']) ?></h5>
                   <p>Une nouvelle interrogation est disponible pour vous !</p>
-                  <a href="mes_interro.php?id=<?= $quiz_actif['id'] ?>" class="btn btn-success">
+                  <a href="mes_interro.php?id=<?= $quizActif['id'] ?>" class="btn btn-success">
                     <i class="fas fa-play"></i> Commencer maintenant
                   </a>
                 </div>
@@ -343,7 +239,7 @@ $photo_profil = !empty($utilisateur['photo']) ? $utilisateur['photo'] : 'uploads
         initialView: 'dayGridMonth',
         locale: 'fr',
         events: [
-          <?php if (!empty($interros_a_venir)) foreach ($interros_a_venir as $interro): ?>
+          <?php if (!empty($interrosAVenir)) foreach ($interrosAVenir as $interro): ?>
             {
               title: <?= json_encode($interro['titre'] . ' à ' . date('H:i', strtotime($interro['date_lancement']))) ?>,
               start: <?= json_encode(date('Y-m-d\TH:i:s', strtotime($interro['date_lancement']))) ?>,

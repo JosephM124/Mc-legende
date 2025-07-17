@@ -60,7 +60,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="admin_eleve.php" class="nav-link">
+          <a href="eleve.php" class="nav-link">
             <i class="nav-icon fas fa-users"></i>
             <p>Élèves</p>
           </a>

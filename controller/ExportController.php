@@ -6,6 +6,7 @@ class ExportController extends BaseController
     public function __construct()
     {
         parent::__construct();
+        $this->requireAnyRole(['admin', 'admin_principal']);
     }
 
     /**

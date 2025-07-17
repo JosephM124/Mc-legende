@@ -9,6 +9,7 @@ class EleveController extends BaseController
     public function __construct()
     {
         parent::__construct();
+        $this->requireRole('eleve');
         $this->eleve = new \Models\Eleve();
     }
 

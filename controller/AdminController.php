@@ -6,6 +6,7 @@ class AdminController extends \Controllers\BaseController
     public function __construct()
     {
         parent::__construct();
+        $this->requireAnyRole(['admin', 'admin_principal']);
     }
     
     public function enregistrer_activite_admin($admin_id, $action, $details = null) {

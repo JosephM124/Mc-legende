@@ -8,6 +8,7 @@ class ResultatController extends BaseController
     public function __construct()
     {
         parent::__construct();
+        $this->requireAnyRole(['eleve', 'admin', 'admin_principal']);
         $this->resultat = new \Models\Resultat();
     }
 

@@ -8,6 +8,7 @@ class InterrogationController extends BaseController
     public function __construct()
     {
         parent::__construct();
+        $this->requireAnyRole(['eleve', 'enseignant', 'admin', 'admin_principal']);
         $this->interrogation = new \Models\Interrogation();
     }
 

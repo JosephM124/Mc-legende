@@ -1,16 +1,18 @@
 <?php
 namespace Controllers;
-session_start();
-
 
 class UtilisateursController extends BaseController
 {
     private $utilisateur;
+    protected $sessionManager;
+    protected $authMiddleware;
 
     public function __construct()
     {
         parent::__construct();
         $this->utilisateur = new \Models\Utilisateurs();
+        $this->sessionManager = new \Middleware\SessionManager();
+        $this->authMiddleware = new \Middleware\AuthMiddleware();
     }
 
     /**
@@ -324,11 +326,10 @@ class UtilisateursController extends BaseController
     }
 
     /**
-     * Authentifier un utilisateur
+     * Authentifier un utilisateur (version sécurisée)
      */
     public function login($datas = [])
     {
-        
         $input = $this->sanitizeInput($datas);
         $rules = [
             'identifiant' => 'required',
@@ -342,40 +343,88 @@ class UtilisateursController extends BaseController
         }
         
         try {
+            // Vérifier les tentatives de connexion
+            if (!$this->sessionManager->checkLoginAttempts($input['identifiant'])) {
+                $this->errorResponse('Trop de tentatives de connexion. Réessayez dans 15 minutes.', 429);
+            }
+
             $user = $this->database->select(
                 "SELECT * FROM utilisateurs WHERE email = ? OR telephone = ?",
                 [$input['identifiant'], $input['identifiant']]
-            
             );
 
             if (empty($user)) {
+                $this->sessionManager->logFailedLogin($input['identifiant']);
                 $this->errorResponse('Email ou mot de passe incorrect', 401);
             }
 
             $user = $user[0];
 
-            if (password_verify($input['mot_de_passe'], $user['mot_de_passe'])) {
-                // Générer un token de session
-                $token = bin2hex(random_bytes(32));
-                
-                // Mettre à jour le token dans la base de données
-                $this->database->prepare(
-                    "UPDATE utilisateurs SET reset_token = ?, token_expiration = DATE_ADD(NOW(), INTERVAL 24 HOUR) WHERE id = ?",
-                    [$token, $user['id']]
-                );
+            // Vérifier si le compte est actif
+            if ($user['statut'] !== 'active') {
+                $this->errorResponse('Compte inactif. Contactez l\'administrateur.', 403);
+            }
 
-                unset($user['mot_de_passe']); // Ne pas renvoyer le mot de passe
-                $user['token'] = $token;
+            if (password_verify($input['mot_de_passe'], $user['mot_de_passe'])) {
+                // Créer une session sécurisée
+                $this->sessionManager->createUserSession($user);
                 
-                $_SESSION['utilisateur'] = $user;
+                // Enregistrer la connexion réussie
+                $this->logSuccessfulLogin($user['id']);
+                
+                // Rediriger selon le rôle
+                //var_dump($user['role']);
+                //exit;
                 $this->redirect_to($user['role']);
-               // $this->successResponse($user, 'Connexion réussie');
             } else {
+                $this->sessionManager->logFailedLogin($input['identifiant']);
                 $this->errorResponse('Email ou mot de passe incorrect', 401);
             }
         } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de l\'authentification: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Enregistrer une connexion réussie
+     */
+    private function logSuccessfulLogin($userId)
+    {
+        try {
+            $this->database->prepare(
+                "INSERT INTO logs (user_id, action, description, ip_address) VALUES (?, ?, ?, ?)",
+                [
+                    $userId,
+                    'login_success',
+                    'Connexion réussie',
+                    $this->getClientIP()
+                ]
+            );
+        } catch (\Exception $e) {
+            error_log("Erreur lors de l'enregistrement de la connexion: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Récupérer l'adresse IP du client
+     */
+    private function getClientIP()
+    {
+        $ipKeys = ['HTTP_X_FORWARDED_FOR', 'HTTP_X_REAL_IP', 'HTTP_CLIENT_IP', 'REMOTE_ADDR'];
+        
+        foreach ($ipKeys as $key) {
+            if (array_key_exists($key, $_SERVER) === true) {
+                foreach (explode(',', $_SERVER[$key]) as $ip) {
+                    $ip = trim($ip);
+                    if (filter_var($ip, FILTER_VALIDATE_IP, 
+                        FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
+                        return $ip;
+                    }
+                }
+            }
+        }
+        
+        return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
 
     /**
@@ -445,25 +494,32 @@ class UtilisateursController extends BaseController
     }
 
     /**
-     * Déconnexion
+     * Déconnexion (version sécurisée)
      */
     public function logout()
     {
         try {
-            // Supprimer la session
-            session_destroy();
+            // Détruire la session sécurisée
+            $this->sessionManager->destroySession();
             
-            // Supprimer le token de la base de données si nécessaire
-            if (isset($_SESSION['utilisateur']['id'])) {
-                $this->database->prepare(
-                    "UPDATE utilisateurs SET reset_token = NULL, token_expiration = NULL WHERE id = ?",
-                    [$_SESSION['utilisateur']['id']]
-                );
-            }
-
-            $this->successResponse(null, 'Déconnexion réussie');
+            // Rediriger vers la page de connexion
+            header('Location: /connexion');
+            exit();
         } catch (\Exception $e) {
             $this->errorResponse('Erreur lors de la déconnexion: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Vérifier l'état de l'authentification
+     */
+    public function checkAuth()
+    {
+        if ($this->sessionManager->isAuthenticated()) {
+            $user = $this->sessionManager->getCurrentUser();
+            $this->successResponse($user, 'Utilisateur authentifié');
+        } else {
+            $this->errorResponse('Non authentifié', 401);
         }
     }
 }

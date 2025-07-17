@@ -4,16 +4,30 @@ namespace Middleware;
 class AuthMiddleware
 {
     private $database;
+    private $sessionManager;
 
     public function __construct()
     {
         $this->database = \App\App::getMysqlDatabaseInstance();
+        $this->sessionManager = new SessionManager();
     }
 
     /**
-     * Vérifier si l'utilisateur est authentifié
+     * Vérifier si l'utilisateur est authentifié (nouveau système de sessions)
      */
     public function authenticate()
+    {
+        if (!$this->sessionManager->isAuthenticated()) {
+            $this->sendUnauthorizedResponse('Session invalide ou expirée');
+        }
+
+        return $this->sessionManager->getCurrentUser();
+    }
+
+    /**
+     * Authentification par token (pour API)
+     */
+    public function authenticateByToken()
     {
         $headers = getallheaders();
         $token = $headers['Authorization'] ?? $headers['authorization'] ?? null;
@@ -26,17 +40,22 @@ class AuthMiddleware
         $token = str_replace('Bearer ', '', $token);
 
         try {
-            // Vérifier dans la table utilisateurs (système actuel)
-            $user = $this->database->select(
-                "SELECT * FROM utilisateurs WHERE reset_token = ? AND token_expiration > NOW()",
+            // Vérifier dans la table sessions
+            $session = $this->database->select(
+                "SELECT s.*, u.* FROM sessions s 
+                 JOIN utilisateurs u ON s.user_id = u.id 
+                 WHERE s.token = ? AND s.active = 1 AND s.date_fin > NOW()",
                 [$token]
             );
 
-            if (empty($user)) {
+            if (empty($session)) {
                 $this->sendUnauthorizedResponse('Token invalide ou expiré');
             }
 
-            return $user[0];
+            $user = $session[0];
+            unset($user['mot_de_passe']); // Ne pas renvoyer le mot de passe
+            
+            return $user;
         } catch (\Exception $e) {
             $this->sendUnauthorizedResponse('Erreur lors de la vérification du token: ' . $e->getMessage());
         }
@@ -49,7 +68,7 @@ class AuthMiddleware
     {
         $user = $this->authenticate();
         
-        if ($user['role'] !== $requiredRole) {
+        if (!$this->sessionManager->hasRole($requiredRole)) {
             $this->sendForbiddenResponse('Accès refusé: rôle insuffisant');
         }
 
@@ -63,7 +82,7 @@ class AuthMiddleware
     {
         $user = $this->authenticate();
         
-        if (!in_array($user['role'], $allowedRoles)) {
+        if (!$this->sessionManager->hasAnyRole($allowedRoles)) {
             $this->sendForbiddenResponse('Accès refusé: rôle insuffisant');
         }
 
@@ -161,6 +180,30 @@ class AuthMiddleware
             $this->sendForbiddenResponse('Compte utilisateur inactif');
         }
 
+        return $user;
+    }
+
+    /**
+     * Vérifier le token CSRF
+     */
+    public function requireCSRFToken()
+    {
+        $token = $_POST['csrf_token'] ?? $_GET['csrf_token'] ?? null;
+        
+        if (!$token || !$this->sessionManager->verifyCSRFToken($token)) {
+            $this->sendForbiddenResponse('Token CSRF invalide');
+        }
+
+        return true;
+    }
+
+    /**
+     * Middleware pour les routes sécurisées avec CSRF
+     */
+    public function secureRoute()
+    {
+        $user = $this->authenticate();
+        $this->requireCSRFToken();
         return $user;
     }
 
