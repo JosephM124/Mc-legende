@@ -1,5 +1,6 @@
 <?php
 namespace Controllers;
+require_once __DIR__ . '/../middleware/SessionManager.php';
 abstract class BaseController
 {
     protected $database;
